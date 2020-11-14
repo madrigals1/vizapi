@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "${DOCKER_PORT}:${PORT}"
+    volumes:
+      - "./:/usr/src/app"
+      - "${DOCKER_STATIC_HOSTING}:/usr/src/app/static"
+    environment:
+      VIRTUAL_HOST: ${SSL_DOMAIN}
+      VIRTUAL_PORT: ${DOCKER_PORT}
+      LETSENCRYPT_HOST: ${SSL_DOMAIN}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external:
+      name: ${NGINX_PROXY_NETWORK}
