@@ -83,7 +83,7 @@ const createTable = async (tableDict) => {
     log(`Image was created at path ${uniquePath.absolute}`);
     return uniquePath.link;
   } catch (err) {
-    error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err}`);
+    error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err.message}`);
     return false;
   }
 };
