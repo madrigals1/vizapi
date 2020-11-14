@@ -38,7 +38,7 @@ const dictToHtml = (tableDict) => {
   </head>
   <body>
   
-    <table>
+    <table id="table">
       <tr>${columns.map((column) => `<th>${column}</th>`).join('')}</tr>
       ${tableDict.map((row) => (
     `<tr>${columns.map((column) => `<th>${row[column]}</th>`).join('')}</tr>`
@@ -71,8 +71,8 @@ const createTable = async (tableDict) => {
       deviceScaleFactor: 1,
     });
     await page.setContent(content);
-    await page.waitForSelector('table');
-    const table = await page.$('table');
+    await page.waitForSelector('#table');
+    const table = await page.$('#table');
     await table.screenshot({ path: uniquePath.absolute });
     await browser.close();
     log(`Image was created at path ${uniquePath.absolute}`);
