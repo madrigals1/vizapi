@@ -20,9 +20,10 @@ const dictToHtml = (tableDict) => {
   <head>
     <title>Title</title>
     <style>
-      table {
-        margin: 8px;
+      #table-container {
         padding: 8px;
+      }
+      table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
@@ -38,13 +39,15 @@ const dictToHtml = (tableDict) => {
     </style>
   </head>
   <body>
-  
-    <table id="table">
-      <tr>${columns.map((column) => `<th>${column}</th>`).join('')}</tr>
-      ${tableDict.map((row) => (
+    
+    <div id="table-container">
+      <table>
+        <tr>${columns.map((column) => `<th>${column}</th>`).join('')}</tr>
+        ${tableDict.map((row) => (
     `<tr>${columns.map((column) => `<td>${row[column]}</td>`).join('')}</tr>`
   )).join('')}
-    </table>
+      </table>
+    </div>
     
   </body>
 </html>
@@ -72,8 +75,8 @@ const createTable = async (tableDict) => {
       deviceScaleFactor: 1,
     });
     await page.setContent(content);
-    await page.waitForSelector('#table');
-    const table = await page.$('#table');
+    await page.waitForSelector('#table-container');
+    const table = await page.$('#table-container');
     await table.screenshot({ path: uniquePath.absolute });
     await browser.close();
     log(`Image was created at path ${uniquePath.absolute}`);
