@@ -18,6 +18,7 @@ const dictToHtml = (tableDict) => {
   return `
 <html lang="en">
   <head>
+    <meta charset="utf-8">
     <title>Title</title>
     <style>
       #table-container {
