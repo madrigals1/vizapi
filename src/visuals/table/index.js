@@ -21,6 +21,7 @@ const dictToHtml = (tableDict) => {
     <title>Title</title>
     <style>
       table {
+        margin: 8px;
         padding: 8px;
         font-family: arial, sans-serif;
         border-collapse: collapse;
