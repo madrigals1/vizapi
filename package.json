@@ -10,8 +10,11 @@
   "author": "Adi Sabyrbayev",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
-    "restana": "^4.8.0"
+    "puppeteer": "^5.4.1",
+    "restana": "^4.8.0",
+    "uuid4": "^2.0.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
