@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer');
 
 const { log, error, getUniquePath } = require('../../utils');
 
+const { CHROMIUM_PATH } = require('../../constants');
+
 const dictToHtml = (tableDict) => {
   // We only use first row of table to determine list of possible columns
   const firstRow = tableDict[0];
@@ -50,7 +52,12 @@ const createTable = async (tableDict) => {
   const uniquePath = getUniquePath({ prefix: 'table', extension: 'png' });
 
   try {
-    const browser = await puppeteer.launch();
+    // Set options for Puppeteer
+    const options = CHROMIUM_PATH
+      ? { args: ['--no-sandbox'], executablePath: CHROMIUM_PATH }
+      : {};
+
+    const browser = await puppeteer.launch(options);
     const page = await browser.newPage();
     await page.setViewport({
       width: 960,
