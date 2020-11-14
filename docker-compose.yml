@@ -3,10 +3,12 @@ version: "3"
 services:
   backend:
     build: .
+    restart: always
     ports:
       - "${DOCKER_PORT}:${PORT}"
     volumes:
       - "./:/usr/src/app"
+      - "/usr/src/app/node_modules"
       - "${DOCKER_STATIC_HOSTING}:/usr/src/app/static"
     environment:
       VIRTUAL_HOST: ${SSL_DOMAIN}
@@ -15,6 +17,7 @@ services:
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     networks:
       - proxy
+    command: npm start
 
 networks:
   proxy:
