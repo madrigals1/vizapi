@@ -41,7 +41,7 @@ const dictToHtml = (tableDict) => {
     <table id="table">
       <tr>${columns.map((column) => `<th>${column}</th>`).join('')}</tr>
       ${tableDict.map((row) => (
-    `<tr>${columns.map((column) => `<th>${row[column]}</th>`).join('')}</tr>`
+    `<tr>${columns.map((column) => `<td>${row[column]}</td>`).join('')}</tr>`
   )).join('')}
     </table>
     
