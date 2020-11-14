@@ -24,9 +24,6 @@ const getUniquePath = (options) => {
   // /var/www/image_askdu231p9u1p239312ksdlc_public.png
   if (extension) fileName += `.${extension}`;
 
-  // Create static folders
-  fs.mkdirSync(STATIC_FOLDER, null);
-
   return {
     absolute: `${STATIC_FOLDER}/${fileName}`,
     relative: fileName,

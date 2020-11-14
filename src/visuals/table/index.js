@@ -1,8 +1,14 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 const { log, error, getUniquePath } = require('../../utils');
 
-const { CHROMIUM_PATH } = require('../../constants');
+const { CHROMIUM_PATH, STATIC_FOLDER } = require('../../constants');
+
+const createStaticFolder = () => {
+  // Create static folders
+  if (!fs.existsSync(STATIC_FOLDER)) fs.mkdirSync(STATIC_FOLDER, null);
+};
 
 const dictToHtml = (tableDict) => {
   // We only use first row of table to determine list of possible columns
@@ -77,4 +83,4 @@ const createTable = async (tableDict) => {
   }
 };
 
-module.exports = { createTable };
+module.exports = { createTable, createStaticFolder };

@@ -5,9 +5,12 @@ const app = restana();
 const { PORT } = require('./constants');
 
 const { log } = require('./utils');
-const { createTable } = require('./visuals/table');
+const { createTable, createStaticFolder } = require('./visuals/table');
 
 app.use(bodyParser.json());
+
+// Create static folder
+createStaticFolder();
 
 app.post('/table', async (req, res) => {
   // Get table dict from request body
