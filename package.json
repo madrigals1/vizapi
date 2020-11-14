@@ -1,0 +1,21 @@
+{
+  "name": "visualize_api",
+  "version": "0.1.0",
+  "description": "API for visualizing Data",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "fix": "eslint --fix src/*"
+  },
+  "author": "Adi Sabyrbayev",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "restana": "^4.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2"
+  }
+}
