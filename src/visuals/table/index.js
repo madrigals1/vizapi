@@ -65,7 +65,9 @@ const createTable = async (tableDict) => {
       deviceScaleFactor: 1,
     });
     await page.setContent(content);
-    await page.screenshot({ path: uniquePath.absolute });
+    await page.waitForSelector('table');
+    const table = await page.$('table');
+    await table.screenshot({ path: uniquePath.absolute });
     await browser.close();
     log(`Image was created at path ${uniquePath.absolute}`);
     return uniquePath.link;
