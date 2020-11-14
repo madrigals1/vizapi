@@ -2,4 +2,5 @@
 node_modules
 .env
 static
+fonts
 !*.keep
