@@ -68,7 +68,7 @@ const createTable = async (tableDict) => {
     // Set options for Puppeteer
     const options = CHROMIUM_PATH
       ? { args: ['--no-sandbox'], executablePath: CHROMIUM_PATH }
-      : { args: ['--no-sandbox'] };
+      : {};
 
     const browser = await puppeteer.launch(options);
     const page = await browser.newPage();
