@@ -1,7 +1,9 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-const { log, error, getUniquePath } = require('../../utils');
+const {
+  log, error, getUniquePath, htmlEscape: he,
+} = require('../../utils');
 
 const { CHROMIUM_PATH, STATIC_FOLDER } = require('../../constants');
 
@@ -43,9 +45,9 @@ const dictToHtml = (tableDict) => {
     
     <div id="table-container">
       <table>
-        <tr>${columns.map((column) => `<th>${column}</th>`).join('')}</tr>
+        <tr>${columns.map((column) => `<th>${he(column)}</th>`).join('')}</tr>
         ${tableDict.map((row) => (
-    `<tr>${columns.map((column) => `<td>${row[column]}</td>`).join('')}</tr>`
+    `<tr>${columns.map((column) => `<td>${he(row[column])}</td>`).join('')}</tr>`
   )).join('')}
       </table>
     </div>

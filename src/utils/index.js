@@ -1,7 +1,10 @@
 const uuid4 = require('uuid4');
 const fs = require('fs');
+const Entities = require('html-entities').XmlEntities;
 const { STATIC_FOLDER, STATIC_URL } = require('../constants');
 const { log, error } = require('./helper');
+
+const entities = new Entities();
 
 const getUniquePath = (options) => {
   const { prefix, suffix, extension } = options;
@@ -38,6 +41,8 @@ const deleteFile = (path) => {
   });
 };
 
+const htmlEscape = (html) => entities.encodeNonUTF(html);
+
 module.exports = {
-  getUniquePath, deleteFile, log, error,
+  getUniquePath, deleteFile, log, error, htmlEscape,
 };
