@@ -12,6 +12,11 @@ app.use(bodyParser.json());
 // Create static folder
 createStaticFolder();
 
+app.get('/', async (req, res) => {
+  // Send back data
+  res.send({"detail": "Visualize API is running!"});
+});
+
 app.post('/table', async (req, res) => {
   // Get table dict from request body
   const { table } = req.body;
