@@ -12,19 +12,19 @@ const getUniquePath = (options) => {
   // /var/www/static
   let fileName = '';
 
-  // /var/www/image_
+  // /var/www/static/image_
   if (prefix) fileName += `${prefix}_`;
 
   // Generate unique ID
   const id = uuid4();
 
-  // /var/www/image_askdu231p9u1p239312ksdlc
+  // /var/www/static/image_askdu231p9u1p239312ksdlc
   fileName += id;
 
-  // /var/www/image_askdu231p9u1p239312ksdlc_public
+  // /var/www/static/image_askdu231p9u1p239312ksdlc_public
   if (suffix) fileName += `_${suffix}`;
 
-  // /var/www/image_askdu231p9u1p239312ksdlc_public.png
+  // /var/www/static/image_askdu231p9u1p239312ksdlc_public.png
   if (extension) fileName += `.${extension}`;
 
   return {
