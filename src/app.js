@@ -14,7 +14,7 @@ createStaticFolder();
 
 app.get('/', async (req, res) => {
   // Send back data
-  res.send({"detail": "Visualize API is running!"});
+  res.send({ detail: 'Visualize API is running!' });
 });
 
 app.post('/table', async (req, res) => {
@@ -25,7 +25,9 @@ app.post('/table', async (req, res) => {
   const tableImageLink = await createTable(table);
 
   // Send link or error
-  const data = tableImageLink ? { link: tableImageLink } : { failure: 'Error on the server!' };
+  const data = tableImageLink
+    ? { link: tableImageLink }
+    : { failure: 'Error on the server!' };
 
   // Send back data
   res.send(data);
