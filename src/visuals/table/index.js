@@ -5,10 +5,9 @@ const {
   log, error, getUniquePath, htmlEscape: he,
 } = require('../../utils');
 
-const { CHROMIUM_PATH, STATIC_FOLDER } = require('../../constants');
+const { IS_DOCKER, STATIC_FOLDER } = require('../../constants');
 
 const createStaticFolder = () => {
-  // Create static folders
   if (!fs.existsSync(STATIC_FOLDER)) fs.mkdirSync(STATIC_FOLDER, null);
 };
 
@@ -64,30 +63,28 @@ const createTable = async (tableDict) => {
   // Generate unique path
   const uniquePath = getUniquePath({ prefix: 'table', extension: 'png' });
 
-  // try {
-  // Set options for Puppeteer
-  const options = CHROMIUM_PATH
-    ? { args: ['--no-sandbox'], executablePath: CHROMIUM_PATH }
-    : {};
+  try {
+    // Set options for Puppeteer
+    const options = IS_DOCKER ? { args: ['--no-sandbox'] } : {};
 
-  const browser = await puppeteer.launch(options);
-  const page = await browser.newPage();
-  await page.setViewport({
-    width: 960,
-    height: 760,
-    deviceScaleFactor: 1,
-  });
-  await page.setContent(content);
-  await page.waitForSelector('#table-container');
-  const table = await page.$('#table-container');
-  await table.screenshot({ path: uniquePath.absolute });
-  await browser.close();
-  log(`Image was created at path ${uniquePath.absolute}`);
-  return uniquePath.link;
-  // } catch (err) {
-  //   error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err.error}`);
-  //   return false;
-  // }
+    const browser = await puppeteer.launch(options);
+    const page = await browser.newPage();
+    await page.setViewport({
+      width: 960,
+      height: 760,
+      deviceScaleFactor: 1,
+    });
+    await page.setContent(content);
+    await page.waitForSelector('#table-container');
+    const table = await page.$('#table-container');
+    await table.screenshot({ path: uniquePath.absolute });
+    await browser.close();
+    log(`Image was created at path ${uniquePath.absolute}`);
+    return uniquePath.link;
+  } catch (err) {
+    error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err.error}`);
+    return false;
+  }
 };
 
 module.exports = { createTable, createStaticFolder };

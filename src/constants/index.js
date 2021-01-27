@@ -2,10 +2,10 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const {
-  PORT, STATIC_FOLDER, STATIC_URL, CHROMIUM_PATH,
-} = process.env;
+const { PORT, STATIC_URL, IS_DOCKER } = process.env;
+
+const STATIC_FOLDER = '/var/www/static/vizapi';
 
 module.exports = {
-  PORT, STATIC_FOLDER, STATIC_URL, CHROMIUM_PATH,
+  PORT, STATIC_URL, IS_DOCKER, STATIC_FOLDER,
 };

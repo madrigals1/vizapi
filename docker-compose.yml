@@ -10,7 +10,7 @@ services:
       - "./:/usr/src/app"
       - "/usr/src/app/node_modules"
       - "./fonts:/usr/share/fonts"
-      - "${DOCKER_STATIC_HOSTING}:/usr/src/app/static"
+      - "${DOCKER_STATIC_HOSTING}:/var/www/static"
     environment:
       VIRTUAL_HOST: ${SSL_DOMAIN}
       VIRTUAL_PORT: ${DOCKER_PORT}
