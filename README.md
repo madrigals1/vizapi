@@ -1,6 +1,6 @@
 # VizAPI
 
-**VizAPI** is an API Service, that converts **JSON Data** into **HTML** and returns **PNG** image of **HTML**.
+**VizAPI** is an API Service, that converts **JSON Table** into **HTML** and returns **PNG** image of **HTML**.
 
 ## Demo
 
