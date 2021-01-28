@@ -48,7 +48,7 @@ cp .env.example .env
 
 ---
 
-Change values for:
+Environment variables:
 - `PORT` - port on which the app will be running.
 - `STATIC_URL` - link to the URL of **Dockerized Static Hosting** + `/vizapi` folder
 - `DOCKER_STATIC_HOSTING` - place, where we will save all of our files. Should be also accessible by our **Dockerized Static Hosting** server.
