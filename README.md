@@ -99,6 +99,9 @@ docker-compose down
 ## Usage
 
 Send POST request for `<url>/table`
+
+> `<url>` will be `localhost:PORT` if running without **Dockerized Nginx** and `SSL_DOMAIN` if running with **Dockerized Nginx** 
+
 ```
 {
     "table": [
