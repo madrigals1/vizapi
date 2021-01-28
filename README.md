@@ -1,6 +1,6 @@
 # VizAPI
 
-**VizAPI** is an API Service, that converts **JSON Dictionaries** into **HTML Tables** and returns **PNG** image of **HTML Table**.
+**VizAPI** is an API Service, that converts **JSON Data** into **HTML** and returns **PNG** image of **HTML**.
 
 ## Demo
 
