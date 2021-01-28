@@ -10,9 +10,15 @@ RUN  apt-get update \
      && wget --quiet https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/sbin/wait-for-it.sh \
      && chmod +x /usr/sbin/wait-for-it.sh
 
+ENV IS_DOCKER true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome-stable
+
 WORKDIR /usr/src/app
 
-COPY . .
+ADD package.json package-lock.json ./
 RUN npm ci
 
-EXPOSE 3000
+COPY . .
+
+EXPOSE ${PORT}

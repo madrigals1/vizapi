@@ -7,5 +7,5 @@ const { PORT, STATIC_URL, IS_DOCKER } = process.env;
 const STATIC_FOLDER = '/var/www/static/vizapi';
 
 module.exports = {
-  PORT, STATIC_URL, IS_DOCKER, STATIC_FOLDER,
+  PORT, STATIC_URL, STATIC_FOLDER, IS_DOCKER,
 };

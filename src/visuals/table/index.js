@@ -12,47 +12,43 @@ const createStaticFolder = () => {
 };
 
 const dictToHtml = (tableDict) => {
-  // We only use first row of table to determine list of possible columns
+  // We use first row of table to determine list of possible columns
   const firstRow = tableDict[0];
   const columns = Object.keys(firstRow);
 
   return `
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Title</title>
-    <style>
-      #table-container {
-        padding: 8px;
-      }
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-      }
-      tr:nth-child(even) {
-        background-color: #dddddd;
-      }
-    </style>
-  </head>
-  <body>
-    
-    <div id="table-container">
-      <table>
-        <tr>${columns.map((column) => `<th>${he(column)}</th>`).join('')}</tr>
-        ${tableDict.map((row) => (
-    `<tr>${columns.map((column) => `<td>${he(row[column])}</td>`).join('')}</tr>`
-  )).join('')}
-      </table>
-    </div>
-    
-  </body>
-</html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <title>Title</title>
+        <style>
+          #table-container {
+            padding: 8px;
+          }
+          table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+          td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          tr:nth-child(even) {
+            background-color: #dddddd;
+          }
+        </style>
+      </head>
+      <body>
+        <div id="table-container">
+          <table>
+            <tr>${columns.map((column) => `<th>${he(column)}</th>`).join('')}</tr>
+            ${tableDict.map((row) => (`<tr>${columns.map((column) => `<td>${he(row[column])}</td>`).join('')}</tr>`)).join('')}
+          </table>
+        </div>
+      </body>
+    </html>
   `;
 };
 
@@ -64,8 +60,11 @@ const createTable = async (tableDict) => {
   const uniquePath = getUniquePath({ prefix: 'table', extension: 'png' });
 
   try {
+    const args = [
+      '--no-sandbox', '--disable-setuid-sandbox', '--enable-logging', '--v=1',
+    ];
     // Set options for Puppeteer
-    const options = IS_DOCKER ? { args: ['--no-sandbox'] } : {};
+    const options = IS_DOCKER ? { args } : {};
 
     const browser = await puppeteer.launch(options);
     const page = await browser.newPage();
