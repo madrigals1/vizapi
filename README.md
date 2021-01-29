@@ -40,7 +40,7 @@ Make sure you have installed these:
 
 ## Installation
 
-Make a copy of .env.example file named .env
+Make a copy of `.env.example` file named `.env`
 
 ```shell script
 cp .env.example .env
