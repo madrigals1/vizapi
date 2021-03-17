@@ -3,6 +3,7 @@ version: "3"
 services:
   backend:
     build: .
+    container_name: vizapi
     restart: always
     ports:
       - ${PORT}:${PORT}
@@ -14,7 +15,6 @@ services:
       VIRTUAL_HOST: ${SSL_DOMAIN}
       VIRTUAL_PORT: ${PORT}
       LETSENCRYPT_HOST: ${SSL_DOMAIN}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     networks:
       - proxy
     command: npm start
