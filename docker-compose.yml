@@ -16,10 +16,10 @@ services:
       VIRTUAL_PORT: ${PORT}
       LETSENCRYPT_HOST: ${SSL_DOMAIN}
     networks:
-      - proxy
+      - https
     command: npm start
 
 networks:
-  proxy:
+  https:
     external:
-      name: ${NGINX_PROXY_NETWORK}
+      name: ${HTTPS_NETWORK}
