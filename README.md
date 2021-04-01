@@ -55,25 +55,25 @@ Environment variables:
 - SSL settings (Not needed without **Dockerized Nginx**):
     - `SSL_DOMAIN` - domain of the website with VizAPI
     - `LETSENCRYPT_EMAIL` - Email for LetsEncrypt notifications.
-    - `NGINX_PROXY_NETWORK` - network, in which our HTTPS server will be running. 
+    - `HTTPS_NETWORK` - network, in which our HTTPS server will be running. 
 
 ```dotenv
 PORT=3122
 STATIC_URL="http://localhost:8800/vizapi"
 
 # Docker settings
-SSL_DOMAIN="vizapi.example.com"
-LETSENCRYPT_EMAIL="user@example.com"
-DOCKER_STATIC_HOSTING="/var/www/static"
-NGINX_PROXY_NETWORK="nginx-proxy"
+SSL_DOMAIN=vizapi.example.com
+LETSENCRYPT_EMAIL=user@example.com
+DOCKER_STATIC_HOSTING=/var/www/static
+HTTPS_NETWORK=https_network
 ```
 
 ---
 
-Create network with the name, that we have in `NGINX_PROXY_NETWORK` environment variable.
+Create network with the name, that we have in `HTTPS_NETWORK` environment variable.
 
 ```shell script
-docker network create nginx-proxy
+docker network create https_network
 ```
 
 ---
