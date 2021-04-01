@@ -54,7 +54,6 @@ Environment variables:
 - `DOCKER_STATIC_HOSTING` - place, where we will save all of our files. Should be also accessible by our **Dockerized Static Hosting** server.
 - SSL settings (Not needed without **Dockerized Nginx**):
     - `SSL_DOMAIN` - domain of the website with VizAPI
-    - `LETSENCRYPT_EMAIL` - Email for LetsEncrypt notifications.
     - `HTTPS_NETWORK` - network, in which our HTTPS server will be running. 
 
 ```dotenv
@@ -63,7 +62,6 @@ STATIC_URL="http://localhost:8800/vizapi"
 
 # Docker settings
 SSL_DOMAIN=vizapi.example.com
-LETSENCRYPT_EMAIL=user@example.com
 DOCKER_STATIC_HOSTING=/var/www/static
 HTTPS_NETWORK=https_network
 ```
