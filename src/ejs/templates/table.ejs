@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Title</title>
+    <title>Table Generation</title>
     <style>
         #table-container {
             padding: 8px;
@@ -31,17 +32,21 @@
     <div id="table-container">
         <table>
             <tr>
-                <% columns.forEach(column => { %>
-                    <th><%= column %></th>
-                <% }); %>        
+                <% columns.forEach(column=> { %>
+                    <th>
+                        <%= column %>
+                    </th>
+                    <% }); %>
             </tr>
-            <% table.map(row => { %>
+            <% table.map(row=> { %>
                 <tr>
-                    <% columns.forEach(column => { %>
-                        <td><%= row[column] %></td>
-                    <% }); %>        
+                    <% columns.forEach(column=> { %>
+                        <td>
+                            <%= row[column] %>
+                        </td>
+                        <% }); %>
                 </tr>
-            <% }); %>
+                <% }); %>
         </table>
     </div>
 </body>
