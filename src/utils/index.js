@@ -1,7 +1,10 @@
-const uuid4 = require('uuid4');
 const fs = require('fs');
+
+const uuid4 = require('uuid4');
 const Entities = require('html-entities').XmlEntities;
+
 const { STATIC_FOLDER, STATIC_URL } = require('../constants');
+
 const { log, error } = require('./helper');
 
 const entities = new Entities();

@@ -3,7 +3,6 @@ const puppeteer = require('puppeteer');
 const {
   log, error, getUniquePath, htmlEscape: he,
 } = require('../../utils');
-
 const { IS_DOCKER } = require('../../constants');
 
 const dictToHtml = (tableDict) => {

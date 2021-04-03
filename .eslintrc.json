@@ -16,6 +16,7 @@
   },
   "rules": {
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "import/order": ["error", {"newlines-between": "always"}],
     "no-console": 2
   }
 }
