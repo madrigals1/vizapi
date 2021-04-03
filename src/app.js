@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = restana();
 const { PORT } = require('./constants');
 const { log, createStaticFolder } = require('./utils');
-const { createTable } = require('./visuals/table');
+const { createTable, createCompare } = require('./visuals');
 
 app.use(bodyParser.json());
 
@@ -26,6 +26,22 @@ app.post('/table', async (req, res) => {
   // Send link or error
   const data = tableImageLink
     ? { link: tableImageLink }
+    : { failure: 'Error on the server!' };
+
+  // Send back data
+  res.send(data);
+});
+
+app.post('/compare', async (req, res) => {
+  // Get compare dict from request body
+  const compare = req.body;
+
+  // Get image of png compare table
+  const compareImageLink = await createCompare(compare);
+
+  // Send link or error
+  const data = compareImageLink
+    ? { link: compareImageLink }
     : { failure: 'Error on the server!' };
 
   // Send back data
