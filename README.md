@@ -104,7 +104,7 @@ docker-compose down
 | --- | --- |
 | Endpoint | `<url>/table` |
 | Method | POST |
-| Description | Converts JSON Data into HTML table and returns screenshot of it |
+| Description | Converts JSON Data Table into HTML table and returns screenshot of it |
 
 Example Input
 
@@ -140,6 +140,135 @@ Example Result
     "link": "<static_hosting_url>/table_<uuid4>.png"
 }
 ```
+
+Demo
+
+![Output](https://i.imgur.com/G0nzeuw.png)
+
+---
+
+### Compare Menu
+
+| Name | Compare Menu |
+| --- | --- |
+| Endpoint | `<url>/compare` |
+| Method | POST |
+| Description | Converts JSON Compare Data into HTML Compare Data and returns screenshot of it |
+
+Example Input
+
+```
+{
+    "left": {
+        "image": "https://assets.leetcode.com/users/madrigals1/avatar_1598116159.png",
+        "bio_fields": [
+            {
+                "name": "Name",
+                "value": "Adi"
+            },
+            {
+                "name": "Username",
+                "value": "madrigals1"
+            },
+            {
+                "name": "Website",
+                "value": "https://adigame.dev/"
+            },
+            {
+                "name": "Location",
+                "value": "Thailand"
+            },
+            {
+                "name": "Company",
+                "value": "Agoda"
+            }
+        ],
+        "compare_fields": [
+            {
+                "name": "Problems Solved",
+                "value": 531,
+                "bigger": true
+            },
+            {
+                "name": "Contest Rating",
+                "value": "1558pt",
+                "bigger": true
+            },
+            {
+                "name": "Submissions in the last year",
+                "value": "757",
+                "bigger": true
+            },
+            {
+                "name": "Points",
+                "value": "2106",
+                "bigger": false
+            }
+        ]
+    },
+    "right": {
+        "image": "https://assets.leetcode.com/users/dmndcrow/avatar_1567323283.png",
+        "bio_fields": [
+            {
+                "name": "Name",
+                "value": "Aibek"
+            },
+            {
+                "name": "Username",
+                "value": "dmndcrow"
+            },
+            {
+                "name": "Website",
+                "value": ""
+            },
+            {
+                "name": "Location",
+                "value": "Kazakhstan"
+            },
+            {
+                "name": "Company",
+                "value": ""
+            }
+        ],
+        "compare_fields": [
+            {
+                "name": "Problems Solved",
+                "value": 536,
+                "bigger": true
+            },
+            {
+                "name": "Contest Rating",
+                "value": "1535pt",
+                "bigger": false
+            },
+            {
+                "name": "Submissions in the last year",
+                "value": "609",
+                "bigger": false
+            },
+            {
+                "name": "Points",
+                "value": "2514",
+                "bigger": true
+            }
+        ]
+    }
+}
+```
+
+Example Result
+
+```
+{
+    "link": "<static_hosting_url>/compare_<uuid4>.png"
+}
+```
+
+Demo
+
+![Output](https://i.imgur.com/umOjwVh.png)
+
+---
 
 ### Authors
 - Adi Sabyrbayev [Github](https://github.com/madrigals1), [LinkedIn](https://www.linkedin.com/in/madrigals1/)
