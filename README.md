@@ -96,9 +96,17 @@ docker-compose down
 
 ## Usage
 
-Send POST request for `<url>/table`
-
 > `<url>` will be `localhost:PORT` if running without **Dockerized Nginx** and `SSL_DOMAIN` if running with **Dockerized Nginx** 
+
+### Table Generation
+
+| Name | Table Generation |
+| --- | --- |
+| Endpoint | `<url>/table` |
+| Method | POST |
+| Description | Converts JSON Data into HTML table and returns screenshot of it |
+
+Example Input
 
 ```
 {
@@ -125,7 +133,8 @@ Send POST request for `<url>/table`
 }
 ```
 
-Result
+Example Result
+
 ```
 {
     "link": "<static_hosting_url>/table_<uuid4>.png"
