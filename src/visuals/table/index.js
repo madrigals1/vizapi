@@ -1,15 +1,10 @@
 const puppeteer = require('puppeteer');
-const fs = require('fs');
 
 const {
   log, error, getUniquePath, htmlEscape: he,
 } = require('../../utils');
 
-const { IS_DOCKER, STATIC_FOLDER } = require('../../constants');
-
-const createStaticFolder = () => {
-  if (!fs.existsSync(STATIC_FOLDER)) fs.mkdirSync(STATIC_FOLDER, null);
-};
+const { IS_DOCKER } = require('../../constants');
 
 const dictToHtml = (tableDict) => {
   // We use first row of table to determine list of possible columns
@@ -86,4 +81,4 @@ const createTable = async (tableDict) => {
   }
 };
 
-module.exports = { createTable, createStaticFolder };
+module.exports = { createTable };

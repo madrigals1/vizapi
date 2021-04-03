@@ -43,6 +43,10 @@ const deleteFile = (path) => {
 
 const htmlEscape = (html) => entities.encodeNonUTF(html);
 
+const createStaticFolder = () => {
+  if (!fs.existsSync(STATIC_FOLDER)) fs.mkdirSync(STATIC_FOLDER, null);
+};
+
 module.exports = {
-  getUniquePath, deleteFile, log, error, htmlEscape,
+  getUniquePath, deleteFile, log, error, htmlEscape, createStaticFolder,
 };

@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const app = restana();
 const { PORT } = require('./constants');
 
-const { log } = require('./utils');
-const { createTable, createStaticFolder } = require('./visuals/table');
+const { log, createStaticFolder } = require('./utils');
+const { createTable } = require('./visuals/table');
 
 app.use(bodyParser.json());
 
