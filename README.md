@@ -157,7 +157,7 @@ Demo
 
 Example Input
 
-```
+```json
 {
     "left": {
         "image": "https://assets.leetcode.com/users/madrigals1/avatar_1598116159.png",
