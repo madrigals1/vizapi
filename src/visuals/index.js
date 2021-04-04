@@ -5,7 +5,9 @@ const { log, error, getUniquePath } = require('../utils');
 const { IS_DOCKER } = require('../constants');
 
 const visualizeHelper = async (options) => {
-  const { action, data, prefix } = options;
+  const {
+    action, data, prefix, width,
+  } = options;
 
   // HTML version of data
   const content = await action(data);
@@ -23,7 +25,7 @@ const visualizeHelper = async (options) => {
     const browser = await puppeteer.launch(puppeteerOptions);
     const page = await browser.newPage();
     await page.setViewport({
-      width: 1400,
+      width,
       height: 760,
     });
     await page.setContent(content);
@@ -44,6 +46,7 @@ const createCompare = (data) => {
     action: compareToHtml,
     data,
     prefix: 'compare',
+    width: 1400,
   };
   return visualizeHelper(options);
 };
@@ -53,6 +56,7 @@ const createTable = (data) => {
     action: tableToHtml,
     data,
     prefix: 'table',
+    width: 900,
   };
   return visualizeHelper(options);
 };
