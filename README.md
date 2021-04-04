@@ -186,23 +186,19 @@ Example Input
         "compare_fields": [
             {
                 "name": "Problems Solved",
-                "value": 531,
-                "bigger": true
+                "value": 531
             },
             {
                 "name": "Contest Rating",
-                "value": "1558pt",
-                "bigger": true
+                "value": 1558
             },
             {
                 "name": "Submissions in the last year",
-                "value": "757",
-                "bigger": true
+                "value": 757
             },
             {
                 "name": "Points",
-                "value": "2106",
-                "bigger": false
+                "value": 2106
             }
         ]
     },
@@ -233,23 +229,19 @@ Example Input
         "compare_fields": [
             {
                 "name": "Problems Solved",
-                "value": 536,
-                "bigger": true
+                "value": 536
             },
             {
                 "name": "Contest Rating",
-                "value": "1535pt",
-                "bigger": false
+                "value": 1535
             },
             {
                 "name": "Submissions in the last year",
-                "value": "609",
-                "bigger": false
+                "value": 609
             },
             {
                 "name": "Points",
-                "value": "2514",
-                "bigger": true
+                "value": 2514
             }
         ]
     }

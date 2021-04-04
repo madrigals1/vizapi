@@ -11,8 +11,22 @@ const tableToHtml = (data) => {
   });
 };
 
-const compareToHtml = (data) => (
-  ejs.renderFile('./src/ejs/templates/compare.ejs', data)
-);
+const compareToHtml = (data) => {
+  const { left, right } = data;
 
+  // Identify which value is bigger
+  left.compare_fields.forEach(({ name, value: leftValue }) => {
+    const rightValue = (
+      right.compare_fields.find((field) => field.name === name)?.value
+    );
+    left.compare_fields.find((field) => field.name === name).bigger = (
+      leftValue >= rightValue
+    );
+    right.compare_fields.find((field) => field.name === name).bigger = (
+      rightValue >= leftValue
+    );
+  });
+
+  return ejs.renderFile('./src/ejs/templates/compare.ejs', { left, right });
+};
 module.exports = { tableToHtml, compareToHtml };
