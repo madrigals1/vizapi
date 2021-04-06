@@ -20,6 +20,8 @@ app.post('/table', async (req, res) => {
   // Get table dict from request body
   const { table } = req.body;
 
+  if (!table) res.send('Please, provide \'table\' in request body');
+
   // Get image of png table
   const tableImageLink = await createTable(table);
 
