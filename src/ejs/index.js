@@ -17,7 +17,7 @@ const compareToHtml = (data) => {
   // Identify which value is bigger
   left.compare_fields.forEach(({ name, value: leftValue }) => {
     const rightValue = (
-      right.compare_fields.find((field) => field.name === name)?.value
+      right.compare_fields.find((field) => field.name === name).value
     );
     left.compare_fields.find((field) => field.name === name).bigger = (
       leftValue >= rightValue
