@@ -29,4 +29,5 @@ const compareToHtml = (data) => {
 
   return ejs.renderFile('./src/ejs/templates/compare.ejs', { left, right });
 };
+
 module.exports = { tableToHtml, compareToHtml };
