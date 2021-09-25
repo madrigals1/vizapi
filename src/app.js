@@ -22,7 +22,10 @@ app.post('/table', async (req, res) => {
   const { table } = req.body;
 
   if (!table || table.length === 0) {
-    return res.send('Please, provide non-empty \'table\' in request body');
+    const data = {
+      failure: 'Please, provide non-empty \'table\' in request body',
+    };
+    return res.send(data);
   }
 
   // Get image of png table
