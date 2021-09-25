@@ -36,7 +36,7 @@ const visualizeHelper = async (options) => {
     log(`Image was created at path ${uniquePath.absolute}`);
     return uniquePath.link;
   } catch (err) {
-    error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err.error}`);
+    error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err.message}`);
     return false;
   }
 };
