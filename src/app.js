@@ -11,17 +11,18 @@ app.use(bodyParser.json());
 // Create static folder
 createStaticFolder();
 
-app.get('/', async (req, res) => {
-  // Send back data
-  res.send({ detail: 'Visualize API is running!' });
-});
+async function defaultResponse(req, res) {
+  return res.send({ detail: 'Visualize API is running!' });
+}
+
+app.get('/', defaultResponse);
 
 app.post('/table', async (req, res) => {
   // Get table dict from request body
   const { table } = req.body;
 
   if (!table || table.length === 0) {
-    res.send('Please, provide non-empty \'table\' in request body');
+    return res.send('Please, provide non-empty \'table\' in request body');
   }
 
   // Get image of png table
@@ -33,7 +34,7 @@ app.post('/table', async (req, res) => {
     : { failure: 'Error on the server!' };
 
   // Send back data
-  res.send(data);
+  return res.send(data);
 });
 
 app.post('/compare', async (req, res) => {
@@ -49,7 +50,7 @@ app.post('/compare', async (req, res) => {
     : { failure: 'Error on the server!' };
 
   // Send back data
-  res.send(data);
+  return res.send(data);
 });
 
 app.start(PORT).then(() => log(`App is running on port ${PORT}`));
