@@ -30,4 +30,9 @@ const compareToHtml = (data) => {
   return ejs.renderFile('./src/ejs/templates/compare.ejs', { left, right });
 };
 
-module.exports = { tableToHtml, compareToHtml };
+async function pieToHtml(data) {
+  const updatedData = { ...data, chartArea: JSON.stringify(data.chartArea) };
+  return ejs.renderFile('./src/ejs/templates/pie.ejs', updatedData);
+}
+
+module.exports = { tableToHtml, compareToHtml, pieToHtml };

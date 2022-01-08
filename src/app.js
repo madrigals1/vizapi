@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = restana();
 const { PORT } = require('./constants');
 const { log, createStaticFolder } = require('./utils');
-const { createTable, createCompare } = require('./visuals');
+const { createTable, createCompare, createPie } = require('./visuals');
 
 app.use(bodyParser.json());
 
@@ -29,12 +29,10 @@ app.post('/table', async (req, res) => {
   }
 
   // Get image of png table
-  const tableImageLink = await createTable(table);
+  const link = await createTable(table);
 
   // Send link or error
-  const data = tableImageLink
-    ? { link: tableImageLink }
-    : { failure: 'Error on the server!' };
+  const data = link ? { link } : { failure: 'Error on the server!' };
 
   // Send back data
   return res.send(data);
@@ -45,12 +43,23 @@ app.post('/compare', async (req, res) => {
   const compare = req.body;
 
   // Get image of png compare table
-  const compareImageLink = await createCompare(compare);
+  const link = await createCompare(compare);
 
   // Send link or error
-  const data = compareImageLink
-    ? { link: compareImageLink }
-    : { failure: 'Error on the server!' };
+  const data = link ? { link } : { failure: 'Error on the server!' };
+
+  // Send back data
+  return res.send(data);
+});
+
+app.post('/pie', async (req, res) => {
+  const pieData = req.body;
+
+  // Get image of png table
+  const link = await createPie(pieData);
+
+  // Send link or error
+  const data = link ? { link } : { failure: 'Error on the server!' };
 
   // Send back data
   return res.send(data);

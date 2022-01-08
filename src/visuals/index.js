@@ -1,12 +1,12 @@
 const puppeteer = require('puppeteer');
 
-const { compareToHtml, tableToHtml } = require('../ejs');
+const { compareToHtml, tableToHtml, pieToHtml } = require('../ejs');
 const { log, error, getUniquePath } = require('../utils');
 const { IS_DOCKER } = require('../constants');
 
 const visualizeHelper = async (options) => {
   const {
-    action, data, prefix, width,
+    action, data, prefix, width, height,
   } = options;
 
   // HTML version of data
@@ -24,10 +24,7 @@ const visualizeHelper = async (options) => {
 
     const browser = await puppeteer.launch(puppeteerOptions);
     const page = await browser.newPage();
-    await page.setViewport({
-      width,
-      height: 760,
-    });
+    await page.setViewport({ width, height });
     await page.setContent(content);
     await page.waitForSelector('#container');
     const table = await page.$('#container');
@@ -47,6 +44,7 @@ const createCompare = (data) => {
     data,
     prefix: 'compare',
     width: 1400,
+    height: 760,
   };
   return visualizeHelper(options);
 };
@@ -57,8 +55,20 @@ const createTable = (data) => {
     data,
     prefix: 'table',
     width: 900,
+    height: 760,
   };
   return visualizeHelper(options);
 };
 
-module.exports = { createTable, createCompare };
+const createPie = (data) => {
+  const options = {
+    action: pieToHtml,
+    data,
+    prefix: 'pie',
+    width: data.width - 50,
+    height: data.height,
+  };
+  return visualizeHelper(options);
+};
+
+module.exports = { createTable, createCompare, createPie };
