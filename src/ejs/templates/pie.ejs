@@ -36,19 +36,28 @@
                 <% }); %>
             ]);
 
+            var pieHole = <%- pieHole %>;
+            var is3D = <%- is3D %>;
+
             var options = {
                 'titlePosition': 'none',
                 'pieSliceText': 'value-and-percentage',
+                'pieSliceBorderColor': 'black',
+                'fontSize': '<%- fontSize %>',
                 'width': <%- width %>,
                 'height': <%- height %>,
-                'is3D': <%- is3D %>,
                 'chartArea': <%- chartArea %>,
                 'colors': [<% sliceData.forEach(row=> { %>
                     '<%= row.sliceColor %>',
                 <% }); %>]
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            if (pieHole) options.pieHole = pieHole;
+            if (is3D) options.is3D = is3D;
+
+            var chart = new google
+                .visualization
+                .PieChart(document.getElementById('piechart'));
             chart.draw(pieData, options);
         }
     </script>

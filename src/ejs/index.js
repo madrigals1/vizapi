@@ -31,8 +31,14 @@ const compareToHtml = (data) => {
 };
 
 async function pieToHtml(data) {
-  const updatedData = { ...data, chartArea: JSON.stringify(data.chartArea) };
-  return ejs.renderFile('./src/ejs/templates/pie.ejs', updatedData);
+  const updatedData = {
+    ...data,
+    chartArea: JSON.stringify(data.chartArea),
+    pieHole: data.pieHole || 0,
+    is3D: data.is3D || false,
+  };
+  const rendered = ejs.renderFile('./src/ejs/templates/pie.ejs', updatedData);
+  return rendered;
 }
 
 module.exports = { tableToHtml, compareToHtml, pieToHtml };
