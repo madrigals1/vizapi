@@ -9,7 +9,7 @@ const { log, error } = require('./helper');
 
 const entities = new Entities();
 
-const getUniquePath = (options) => {
+function getUniquePath(options) {
   const { prefix, suffix, extension } = options;
 
   // /var/www/static
@@ -35,27 +35,29 @@ const getUniquePath = (options) => {
     relative: fileName,
     link: `${STATIC_URL}/${fileName}`,
   };
-};
+}
 
-const deleteFile = (path) => {
+function deleteFile(path) {
   fs.unlink(path, (err) => {
     if (err) error(err);
     log('Image was deleted');
   });
-};
+}
 
-const createFile = (path, buffer) => {
+function createFile(path, buffer) {
   fs.writeFile(path, buffer, (err) => {
     if (err) throw err;
     log('Image was created');
   });
-};
+}
 
-const htmlEscape = (html) => entities.encodeNonUTF(html);
+function htmlEscape(html) {
+  return entities.encodeNonUTF(html);
+}
 
-const createStaticFolder = () => {
+function createStaticFolder() {
   if (!fs.existsSync(STATIC_FOLDER)) fs.mkdirSync(STATIC_FOLDER, null);
-};
+}
 
 module.exports = {
   getUniquePath,

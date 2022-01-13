@@ -1,6 +1,6 @@
 const ejs = require('ejs');
 
-const tableToHtml = (data) => {
+function tableToHtml(data) {
   // We use first row of table to determine list of possible columns
   const firstRow = data[0];
   const columns = Object.keys(firstRow);
@@ -9,9 +9,9 @@ const tableToHtml = (data) => {
     columns,
     table: data,
   });
-};
+}
 
-const compareToHtml = (data) => {
+function compareToHtml(data) {
   const { left, right } = data;
 
   // Identify which value is bigger
@@ -28,7 +28,7 @@ const compareToHtml = (data) => {
   });
 
   return ejs.renderFile('./src/ejs/templates/compare.ejs', { left, right });
-};
+}
 
 async function pieToHtml(data) {
   const updatedData = {
