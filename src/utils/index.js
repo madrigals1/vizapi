@@ -44,6 +44,13 @@ const deleteFile = (path) => {
   });
 };
 
+const createFile = (path, buffer) => {
+  fs.writeFile(path, buffer, (err) => {
+    if (err) throw err;
+    log('Image was created');
+  });
+};
+
 const htmlEscape = (html) => entities.encodeNonUTF(html);
 
 const createStaticFolder = () => {
@@ -51,5 +58,11 @@ const createStaticFolder = () => {
 };
 
 module.exports = {
-  getUniquePath, deleteFile, log, error, htmlEscape, createStaticFolder,
+  getUniquePath,
+  createFile,
+  deleteFile,
+  log,
+  error,
+  htmlEscape,
+  createStaticFolder,
 };

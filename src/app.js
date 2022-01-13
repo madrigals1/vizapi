@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 const app = restana();
 const { PORT } = require('./constants');
 const { log, createStaticFolder } = require('./utils');
-const { createTable, createCompare, createPie } = require('./visuals');
+const {
+  createTable, createCompare, createPie, createBar,
+} = require('./visuals');
 
 app.use(bodyParser.json());
 
@@ -57,6 +59,19 @@ app.post('/pie', async (req, res) => {
 
   // Get image of png table
   const link = await createPie(pieData);
+
+  // Send link or error
+  const data = link ? { link } : { failure: 'Error on the server!' };
+
+  // Send back data
+  return res.send(data);
+});
+
+app.post('/bar', async (req, res) => {
+  const barData = req.body;
+
+  // Get image of png table
+  const link = await createBar(barData);
 
   // Send link or error
   const data = link ? { link } : { failure: 'Error on the server!' };

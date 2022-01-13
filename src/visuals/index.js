@@ -1,10 +1,15 @@
 const puppeteer = require('puppeteer');
+const GoogleChartsNode = require('google-charts-node');
 
 const { compareToHtml, tableToHtml, pieToHtml } = require('../ejs');
-const { log, error, getUniquePath } = require('../utils');
+const {
+  log, error, getUniquePath, createFile,
+} = require('../utils');
 const { IS_DOCKER } = require('../constants');
 
-const visualizeHelper = async (options) => {
+const { barChart } = require('./googleCharts');
+
+async function visualizeHelper(options) {
   const {
     action, data, prefix, width, height,
   } = options;
@@ -36,9 +41,9 @@ const visualizeHelper = async (options) => {
     error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err.message}`);
     return false;
   }
-};
+}
 
-const createCompare = (data) => {
+function createCompare(data) {
   const options = {
     action: compareToHtml,
     data,
@@ -47,9 +52,9 @@ const createCompare = (data) => {
     height: 760,
   };
   return visualizeHelper(options);
-};
+}
 
-const createTable = (data) => {
+function createTable(data) {
   const options = {
     action: tableToHtml,
     data,
@@ -58,9 +63,9 @@ const createTable = (data) => {
     height: 760,
   };
   return visualizeHelper(options);
-};
+}
 
-const createPie = (data) => {
+function createPie(data) {
   const options = {
     action: pieToHtml,
     data,
@@ -69,6 +74,22 @@ const createPie = (data) => {
     height: data.height,
   };
   return visualizeHelper(options);
-};
+}
 
-module.exports = { createTable, createCompare, createPie };
+// Render the chart to image
+async function createBar(barData) {
+  const chart = barChart(barData.data, barData.options);
+  const buffer = await GoogleChartsNode.render(chart, {
+    width: 400,
+    height: 300,
+  });
+
+  const uniquePath = getUniquePath({ prefix: 'bar', extension: 'png' });
+  createFile(uniquePath.absolute, buffer);
+
+  return uniquePath.link;
+}
+
+module.exports = {
+  createTable, createCompare, createPie, createBar,
+};
