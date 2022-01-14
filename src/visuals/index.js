@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const GoogleChartsNode = require('google-charts-node');
 
 const {
   log, error, getUniquePath, createFile,
@@ -7,7 +6,7 @@ const {
 const { IS_DOCKER } = require('../constants');
 
 const { compareToHtml, tableToHtml, pieToHtml } = require('./ejs');
-const { barChart } = require('./googleChartsNode');
+const { barChart } = require('./googleCharts');
 
 async function visualizeHelper(options) {
   const {
@@ -78,11 +77,7 @@ function createPie(data) {
 
 // Render the chart to image
 async function createBar(barData) {
-  const chart = barChart(barData.data, barData.options);
-  const buffer = await GoogleChartsNode.render(chart, {
-    width: 400,
-    height: 300,
-  });
+  const buffer = await barChart(barData.data, barData.options);
 
   const uniquePath = getUniquePath({ prefix: 'bar', extension: 'png' });
   createFile(uniquePath.absolute, buffer);
