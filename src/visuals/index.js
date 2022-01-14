@@ -1,13 +1,13 @@
 const puppeteer = require('puppeteer');
 const GoogleChartsNode = require('google-charts-node');
 
-const { compareToHtml, tableToHtml, pieToHtml } = require('../ejs');
 const {
   log, error, getUniquePath, createFile,
 } = require('../utils');
 const { IS_DOCKER } = require('../constants');
 
-const { barChart } = require('./googleCharts');
+const { compareToHtml, tableToHtml, pieToHtml } = require('./ejs');
+const { barChart } = require('./googleChartsNode');
 
 async function visualizeHelper(options) {
   const {
