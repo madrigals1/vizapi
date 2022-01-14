@@ -5,10 +5,10 @@ function tableToHtml(data) {
   const firstRow = data[0];
   const columns = Object.keys(firstRow);
 
-  return ejs.renderFile('./src/ejs/templates/table.ejs', {
-    columns,
-    table: data,
-  });
+  return ejs.renderFile(
+    './src/visuals/ejs/templates/table.ejs',
+    { columns, table: data },
+  );
 }
 
 function compareToHtml(data) {
@@ -27,7 +27,10 @@ function compareToHtml(data) {
     );
   });
 
-  return ejs.renderFile('./src/ejs/templates/compare.ejs', { left, right });
+  return ejs.renderFile(
+    './src/visuals/ejs/templates/compare.ejs',
+    { left, right },
+  );
 }
 
 async function pieToHtml(data) {
@@ -37,7 +40,10 @@ async function pieToHtml(data) {
     pieHole: data.pieHole || 0,
     is3D: data.is3D || false,
   };
-  const rendered = ejs.renderFile('./src/ejs/templates/pie.ejs', updatedData);
+  const rendered = ejs.renderFile(
+    './src/visuals/ejs/templates/pie.ejs',
+    updatedData,
+  );
   return rendered;
 }
 
