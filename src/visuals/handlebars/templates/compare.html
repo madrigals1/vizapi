@@ -1,0 +1,230 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Compare Menu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        #container {
+            padding: 15px;
+        }
+
+        :root {
+            --white-bg-color: white;
+            --blue: #1890ff;
+            --green: #449d44;
+            --yellow: #fea116;
+        }
+
+        .container {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            max-width: 1255px;
+        }
+
+        .compare-elements {
+            display: flex;
+            text-align: center;
+        }
+
+        .compare-element {
+            min-width: 600px;
+            height: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .left-element {
+            margin-right: 10px;
+        }
+
+        .right-element {
+            margin-left: 10px;
+        }
+
+        .compare-element-header {
+            background-color: var(--white-bg-color);
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .task-info {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .element-header-info {
+            text-align: left;
+            margin-left: 10px;
+        }
+
+        .element-header-picture {
+            background-color: var(--white-bg-color);
+            margin: 0px;
+            padding: 10px;
+            width: 270px;
+            height: 270px;
+        }
+
+        .orange {
+            color: rgb(251, 140, 0);
+        }
+
+        .green {
+            color: rgb(67, 160, 71);
+        }
+
+        .red {
+            color: rgb(233, 30, 99);
+        }
+
+
+        /* Compare element body */
+
+        .compare-element-body {
+            padding: 15px;
+            font-weight: bold;
+            border-top: 2px solid lightblue;
+            border-right: 0px;
+            border-left: 0px;
+            display: flex;
+            flex-direction: row;
+            height: auto;
+        }
+
+        .compare-element-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin: 0px;
+        }
+
+        .compare-element-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 0px;
+            width: 540px;
+        }
+
+        .compare-element-content-left {
+            margin-right: 15px;
+        }
+
+        .compare-element-content-right {
+            margin-left: 15px;
+        }
+
+        .compare-element-text {
+            margin: 0px;
+        }
+
+        .table {
+            width: 100%;
+            font-size: 18px;
+            margin: 8px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+
+        .table td,
+        th {
+            height: 42px;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: right;
+        }
+
+        .bg-red {
+            background-color: red;
+        }
+
+        .bg-green {
+            background-color: var(--green);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="compare-elements">
+            <div class="left-element compare-element">
+                <div class="compare-element-header">
+                    <div class="element-header-picture">
+                        <img width="250px" height="250px" src="{{left.image}}" alt="left">
+                    </div>
+                    <table class="table">
+                        {{#each left.bio_fields }}
+                        <tr>
+                            <th>{{this.name}}</th>
+                            <td>{{this.value}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+
+
+                {{#each left.compare_fields}}
+                <div class="compare-element-body">
+                    <div class="compare-element-content compare-element-content-left">
+                        <div class="compare-element-text">
+                            {{this.name}}
+                        </div>
+                        <div class="compare-element-text">
+                            {{this.value}}
+                        </div>
+                    </div>
+                    <div class="compare-element-dot
+                    {{#if this.bigger}}bg-green{{else}}bg-red{{/if}}">
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            <div class="right-element compare-element">
+                <div class="compare-element-header">
+                    <div class="element-header-picture">
+                        <img width="250px" height="250px" src="{{right.image}}" alt="right">
+                    </div>
+                    <table class="table">
+                        {{#each right.bio_fields }}
+                        <tr>
+                            <th>{{this.name}}</th>
+                            <td>{{this.value}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+                {{#each right.compare_fields }}
+                <div class="compare-element-body">
+                    <div class="compare-element-dot
+                    {{#if this.bigger}}bg-green{{else}}bg-red{{/if}}">
+                    </div>
+                    <div class="compare-element-content compare-element-content-right">
+                        <div class="compare-element-text">
+                            {{this.value}}
+                        </div>
+                        <div class="compare-element-text">
+                            {{this.name}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
