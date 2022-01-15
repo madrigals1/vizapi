@@ -15,4 +15,11 @@ function render(filename, data) {
   });
 }
 
-module.exports = { render };
+async function chartsWrapper(content, opts) {
+  return render(
+    'src/visuals/handlebars/templates/charts.html',
+    { opts, content },
+  );
+}
+
+module.exports = { render, chartsWrapper };

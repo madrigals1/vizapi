@@ -1,4 +1,4 @@
-const { render } = require('./utils');
+const { render, chartsWrapper } = require('./utils');
 
 async function tableToHtml(data) {
   // We use first row of table to determine list of possible columns
@@ -43,13 +43,6 @@ async function pieToHtml(data) {
     updatedData,
   );
   return rendered;
-}
-
-async function chartsWrapper(content, opts) {
-  return render(
-    'src/visuals/handlebars/templates/charts.html',
-    { opts, content },
-  );
 }
 
 function barToHtml(barData) {
