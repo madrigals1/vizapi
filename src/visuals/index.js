@@ -5,8 +5,8 @@ const {
 } = require('../utils');
 const { IS_DOCKER } = require('../constants');
 
-const { tableToHtml, pieToHtml } = require('./ejs');
-const { compareToHtml } = require('./handlebars');
+const { tableToHtml } = require('./ejs');
+const { compareToHtml, pieToHtml } = require('./handlebars');
 const { barChart } = require('./googleCharts');
 
 async function visualizeHelper(options) {

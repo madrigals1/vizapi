@@ -19,6 +19,21 @@ function compareToHtml(data) {
   return render('src/visuals/handlebars/templates/compare.html', data);
 }
 
+async function pieToHtml(data) {
+  const updatedData = {
+    ...data,
+    chartArea: JSON.stringify(data.chartArea),
+    pieHole: data.pieHole || 0,
+    is3D: data.is3D || false,
+  };
+  const rendered = render(
+    './src/visuals/handlebars/templates/pie.html',
+    updatedData,
+  );
+  return rendered;
+}
+
 module.exports = {
   compareToHtml,
+  pieToHtml,
 };
