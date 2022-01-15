@@ -166,28 +166,28 @@
                         <img width="250px" height="250px" src="{{left.image}}" alt="left">
                     </div>
                     <table class="table">
-                        {{#each left.bio_fields }}
+                        {{#each left.bio_fields as |field|}}
                         <tr>
-                            <th>{{this.name}}</th>
-                            <td>{{this.value}}</td>
+                            <th>{{field.name}}</th>
+                            <td>{{field.value}}</td>
                         </tr>
                         {{/each}}
                     </table>
                 </div>
 
 
-                {{#each left.compare_fields}}
+                {{#each left.compare_fields as |field|}}
                 <div class="compare-element-body">
                     <div class="compare-element-content compare-element-content-left">
                         <div class="compare-element-text">
-                            {{this.name}}
+                            {{field.name}}
                         </div>
                         <div class="compare-element-text">
-                            {{this.value}}
+                            {{field.value}}
                         </div>
                     </div>
                     <div class="compare-element-dot
-                    {{#if this.bigger}}bg-green{{else}}bg-red{{/if}}">
+                    {{#if field.bigger}}bg-green{{else}}bg-red{{/if}}">
                     </div>
                 </div>
                 {{/each}}
@@ -199,25 +199,25 @@
                         <img width="250px" height="250px" src="{{right.image}}" alt="right">
                     </div>
                     <table class="table">
-                        {{#each right.bio_fields }}
+                        {{#each right.bio_fields as |field|}}
                         <tr>
-                            <th>{{this.name}}</th>
-                            <td>{{this.value}}</td>
+                            <th>{{field.name}}</th>
+                            <td>{{field.value}}</td>
                         </tr>
                         {{/each}}
                     </table>
                 </div>
-                {{#each right.compare_fields }}
+                {{#each right.compare_fields as |field|}}
                 <div class="compare-element-body">
                     <div class="compare-element-dot
-                    {{#if this.bigger}}bg-green{{else}}bg-red{{/if}}">
+                    {{#if field.bigger}}bg-green{{else}}bg-red{{/if}}">
                     </div>
                     <div class="compare-element-content compare-element-content-right">
                         <div class="compare-element-text">
-                            {{this.value}}
+                            {{field.value}}
                         </div>
                         <div class="compare-element-text">
-                            {{this.name}}
+                            {{field.name}}
                         </div>
                     </div>
                 </div>
