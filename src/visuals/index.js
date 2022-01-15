@@ -1,12 +1,14 @@
 const puppeteer = require('puppeteer');
 
+const constants = require('../constants');
 const {
   log, error, getUniquePath, createFile,
 } = require('../utils');
 const { IS_DOCKER } = require('../constants');
 
-const { compareToHtml, tableToHtml, pieToHtml } = require('./ejs');
-const { barChart } = require('./googleCharts');
+const {
+  compareToHtml, pieToHtml, tableToHtml, barToHtml,
+} = require('./handlebars');
 
 async function visualizeHelper(options) {
   const {
@@ -28,11 +30,33 @@ async function visualizeHelper(options) {
 
     const browser = await puppeteer.launch(puppeteerOptions);
     const page = await browser.newPage();
+    page.setDefaultTimeout(constants.RENDER_TIMEOUT_MS);
+
+    page.on('pageerror', (err) => {
+      throw new Error(`Error: ${err.toString()}`);
+    });
+
     await page.setViewport({ width, height });
     await page.setContent(content);
-    await page.waitForSelector('#container');
-    const table = await page.$('#container');
-    await table.screenshot({ path: uniquePath.absolute });
+    const container = await page.$('#container');
+
+    const imageBase64 = await page.evaluate(() => {
+      if (!window.chart || typeof window.chart.getImageURI === 'undefined') {
+        return null;
+      }
+      return window.chart.getImageURI();
+    });
+    if (imageBase64) {
+      const buf = Buffer.from(
+        imageBase64.slice('data:image/png;base64,'.length),
+        'base64',
+      );
+
+      createFile(uniquePath.absolute, buf);
+    } else {
+      await container.screenshot({ path: uniquePath.absolute });
+    }
+
     await browser.close();
     log(`Image was created at path ${uniquePath.absolute}`);
     return uniquePath.link;
@@ -75,14 +99,15 @@ function createPie(data) {
   return visualizeHelper(options);
 }
 
-// Render the chart to image
-async function createBar(barData) {
-  const buffer = await barChart(barData.data, barData.options);
-
-  const uniquePath = getUniquePath({ prefix: 'bar', extension: 'png' });
-  createFile(uniquePath.absolute, buffer);
-
-  return uniquePath.link;
+async function createBar(data) {
+  const options = {
+    action: barToHtml,
+    data,
+    prefix: 'bar',
+    width: data.options.width,
+    height: data.options.height,
+  };
+  return visualizeHelper(options);
 }
 
 module.exports = {

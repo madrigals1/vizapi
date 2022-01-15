@@ -163,67 +163,65 @@
             <div class="left-element compare-element">
                 <div class="compare-element-header">
                     <div class="element-header-picture">
-                        <img width="250px" height="250px" src="<%= left.image %>" alt="left">
+                        <img width="250px" height="250px" src="{{left.image}}" alt="left">
                     </div>
                     <table class="table">
-                        <% left.bio_fields.forEach(element=> { %>
-                            <tr>
-                                <th>
-                                    <%= element.name %>
-                                </th>
-                                <td>
-                                    <%= element.value %>
-                                </td>
-                            </tr>
-                            <% }); %>
+                        {{#each left.bio_fields as |field|}}
+                        <tr>
+                            <th>{{field.name}}</th>
+                            <td>{{field.value}}</td>
+                        </tr>
+                        {{/each}}
                     </table>
                 </div>
-                <% left.compare_fields.forEach(element=> { %>
-                    <div class="compare-element-body">
-                        <div class="compare-element-content compare-element-content-left">
-                            <div class="compare-element-text">
-                                <%= element.name %>
-                            </div>
-                            <div class="compare-element-text">
-                                <%= element.value %>
-                            </div>
+
+
+                {{#each left.compare_fields as |field|}}
+                <div class="compare-element-body">
+                    <div class="compare-element-content compare-element-content-left">
+                        <div class="compare-element-text">
+                            {{field.name}}
                         </div>
-                        <div class="compare-element-dot <%= element.bigger ? 'bg-green' : 'bg-red' %>"></div>
+                        <div class="compare-element-text">
+                            {{field.value}}
+                        </div>
                     </div>
-                    <% }); %>
+                    <div class="compare-element-dot
+                    {{#if field.bigger}}bg-green{{else}}bg-red{{/if}}">
+                    </div>
+                </div>
+                {{/each}}
             </div>
 
             <div class="right-element compare-element">
                 <div class="compare-element-header">
                     <div class="element-header-picture">
-                        <img width="250px" height="250px" src="<%= right.image %>" alt="right">
+                        <img width="250px" height="250px" src="{{right.image}}" alt="right">
                     </div>
                     <table class="table">
-                        <% right.bio_fields.forEach(element=> { %>
-                            <tr>
-                                <th>
-                                    <%= element.name %>
-                                </th>
-                                <td>
-                                    <%= element.value %>
-                                </td>
-                            </tr>
-                            <% }); %>
+                        {{#each right.bio_fields as |field|}}
+                        <tr>
+                            <th>{{field.name}}</th>
+                            <td>{{field.value}}</td>
+                        </tr>
+                        {{/each}}
                     </table>
                 </div>
-                <% right.compare_fields.forEach(element=> { %>
-                    <div class="compare-element-body">
-                        <div class="compare-element-dot <%= element.bigger ? 'bg-green' : 'bg-red' %>"></div>
-                        <div class="compare-element-content compare-element-content-right">
-                            <div class="compare-element-text">
-                                <%= element.value %>
-                            </div>
-                            <div class="compare-element-text">
-                                <%= element.name %>
-                            </div>
+                {{#each right.compare_fields as |field|}}
+                <div class="compare-element-body">
+                    <div class="compare-element-dot
+                    {{#if field.bigger}}bg-green{{else}}bg-red{{/if}}">
+                    </div>
+                    <div class="compare-element-content compare-element-content-right">
+                        <div class="compare-element-text">
+                            {{field.value}}
+                        </div>
+                        <div class="compare-element-text">
+                            {{field.name}}
                         </div>
                     </div>
-                    <% }); %>
+                </div>
+                {{/each}}
             </div>
         </div>
     </div>

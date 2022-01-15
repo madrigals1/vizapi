@@ -1,0 +1,32 @@
+<html lang="en">
+
+<body>
+  <div id="container" style="width: {{opts.width}}; height: {{opts.height}};"></div>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    const container = document.getElementById('container');
+    google.charts.load('current', {
+      packages:[{{{opts.packages}}}],
+      mapsApiKey: '{{opts.mapsApiKey}}',
+    });
+    google.charts.setOnLoadCallback(getDrawChart());
+    function getDrawChart() {
+      const drawChartFn = function (window, document) {
+        {{{content}}}
+        if (typeof drawChart === 'function') {
+          drawChart();
+        }
+        if (typeof chart !== 'undefined') {
+          return chart;
+        }
+      }
+      return function () {
+        window.chart = drawChartFn({}, {
+          getElementById: () => { return container; },
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

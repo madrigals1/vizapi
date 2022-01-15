@@ -1,13 +1,10 @@
 const fs = require('fs');
 
 const uuid4 = require('uuid4');
-const Entities = require('html-entities').XmlEntities;
 
 const { STATIC_FOLDER, STATIC_URL } = require('../constants');
 
 const { log, error } = require('./helper');
-
-const entities = new Entities();
 
 function getUniquePath(options) {
   const { prefix, suffix, extension } = options;
@@ -37,22 +34,11 @@ function getUniquePath(options) {
   };
 }
 
-function deleteFile(path) {
-  fs.unlink(path, (err) => {
-    if (err) error(err);
-    log('Image was deleted');
-  });
-}
-
 function createFile(path, buffer) {
   fs.writeFile(path, buffer, (err) => {
     if (err) throw err;
     log('Image was created');
   });
-}
-
-function htmlEscape(html) {
-  return entities.encodeNonUTF(html);
 }
 
 function createStaticFolder() {
@@ -62,9 +48,7 @@ function createStaticFolder() {
 module.exports = {
   getUniquePath,
   createFile,
-  deleteFile,
   log,
   error,
-  htmlEscape,
   createStaticFolder,
 };
