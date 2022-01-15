@@ -38,7 +38,7 @@ async function visualizeHelper(options) {
 
     await page.setViewport({ width, height });
     await page.setContent(content);
-    const container = page.$('#container');
+    const container = await page.$('#container');
 
     const imageBase64 = await page.evaluate(() => {
       if (!window.chart || typeof window.chart.getImageURI === 'undefined') {
