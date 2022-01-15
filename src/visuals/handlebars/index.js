@@ -33,7 +33,20 @@ async function pieToHtml(data) {
   return rendered;
 }
 
+async function tableToHtml(data) {
+  // We use first row of table to determine list of possible columns
+  const firstRow = data[0];
+  const columns = Object.keys(firstRow);
+  const values = data.map((row) => columns.map((column) => row[column]));
+
+  return render(
+    './src/visuals/handlebars/templates/table.html',
+    { columns, table: values },
+  );
+}
+
 module.exports = {
   compareToHtml,
   pieToHtml,
+  tableToHtml,
 };

@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Table Generation</title>
+  <style>
+    #container {
+      padding: 8px;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <table>
+      <tr>
+        {{#each columns as |column|}}
+        <th>{{column}}</th>
+        {{/each}}
+      </tr>
+      {{#each table as |row|}}
+      <tr>
+        {{#each row as |value|}}
+        <td>{{value}}</td>
+        {{/each}}
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+</body>
+
+</html>
