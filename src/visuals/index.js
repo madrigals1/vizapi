@@ -135,41 +135,41 @@ async function createDiff(data) {
 
     const browser = await puppeteer.launch(puppeteerOptions);
     const page = await browser.newPage();
-    page.setDefaultTimeout(constants.RENDER_TIMEOUT_MS);
+
+    // Disabled cache for better results when testing offline mode
+    await page.setCacheEnabled(false);
 
     page.on('pageerror', (err) => {
       throw new Error(`Error: ${err.toString()}`);
     });
 
     await page.setViewport({ width, height });
-    const client = await page.target().createCDPSession();
 
     // Left side
-    await client.send(
-      'Network.emulateNetworkConditions',
-      {
-        offline: left.offline,
-        downloadThroughput: 25600,
-        uploadThroughput: 25600,
-        latency: 20,
-      },
-    );
-    await page.setContent(left.content);
+    page.setOfflineMode(left.offline);
+
+    if (left.type === 'html') {
+      await page.setContent(left.content);
+    } else if (left.type === 'link') {
+      await page.goto(left.content);
+    } else {
+      throw new Error('Incorrect type');
+    }
+
     const leftContainter = await page.$('html');
     await leftContainter.screenshot({ path: leftUniquePath.absolute });
 
     // Right side
-    await client.send(
-      'Network.emulateNetworkConditions',
-      {
-        offline: right.offline,
-        downloadThroughput: 25600,
-        uploadThroughput: 25600,
-        latency: 20,
-      },
-    );
-    await page.setViewport({ width, height });
-    await page.setContent(right.content);
+    page.setOfflineMode(right.offline);
+
+    if (right.type === 'html') {
+      await page.setContent(right.content);
+    } else if (right.type === 'link') {
+      await page.goto(right.content);
+    } else {
+      throw new Error('Incorrect type');
+    }
+
     const rightContainer = await page.$('html');
     await rightContainer.screenshot({ path: rightUniquePath.absolute });
 
@@ -184,7 +184,12 @@ async function createDiff(data) {
     const diff = new PNG({ width: imgWidth, height: imgHeight });
 
     pixelmatch(
-      img1.data, img2.data, diff.data, imgWidth, imgHeight, { threshold: 0.1 },
+      img1.data,
+      img2.data,
+      diff.data,
+      imgWidth,
+      imgHeight,
+      { threshold: 0.001 },
     );
 
     const diffUniquePath = getUniquePath({ prefix, extension: 'png' });
