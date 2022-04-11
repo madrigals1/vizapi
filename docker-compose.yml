@@ -11,10 +11,6 @@ services:
       - "./:/usr/src/app"
       - "/usr/src/app/node_modules"
       - "${DOCKER_STATIC_HOSTING}:/var/www/static"
-    environment:
-      VIRTUAL_HOST: ${SSL_DOMAIN}
-      VIRTUAL_PORT: ${PORT}
-      LETSENCRYPT_HOST: ${SSL_DOMAIN}
     networks:
       - https
     command: npm start
