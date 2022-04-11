@@ -36,7 +36,7 @@
 Make sure you have installed these:
 - [Docker and Docker Compose](https://phoenixnap.com/kb/install-docker-compose-on-ubuntu-20-04) - Will install all the required packages and software.
 - [Dockerized Static Hosting](https://github.com/madrigals1/nginx_static) - Hosting generated images using **Nginx + Docker**.
-- (Optional) [Dockerized Nginx with SSL](https://github.com/madrigals1/nginx) - Will generate SSL certificates and make the app accessible through `SSL_DOMAIN`, that is set inside `.env`.
+- (Optional) [Dockerized Nginx](https://github.com/madrigals1/nginx_proxy_manager) - Will generate SSL certificates and make the app accessible through `HTTPS_NETWORK`, that is set inside `.env`.
 
 ## Installation
 
@@ -53,17 +53,18 @@ Environment variables:
 - `STATIC_URL` - link to the URL of **Dockerized Static Hosting** + `/vizapi` folder
 - `DOCKER_STATIC_HOSTING` - place, where we will save all of our files. Should be also accessible by our **Dockerized Static Hosting** server.
 - SSL settings (Not needed without **Dockerized Nginx**):
-    - `SSL_DOMAIN` - domain of the website with VizAPI
-    - `HTTPS_NETWORK` - network, in which our HTTPS server will be running. 
+    - `HTTPS_NETWORK` - network, in which our **Dockerized Nginx** is running. 
 
 ```dotenv
 PORT=3122
-STATIC_URL="http://localhost:8800/vizapi"
+STATIC_URL=http://localhost:8800/vizapi
 
 # Docker settings
-SSL_DOMAIN=vizapi.example.com
 DOCKER_STATIC_HOSTING=/var/www/static
 HTTPS_NETWORK=https_network
+
+# Google Chart render timeout
+RENDER_TIMEOUT_MS=5000
 ```
 
 ---
@@ -96,7 +97,7 @@ docker-compose down
 
 ## Usage
 
-> `<url>` will be `localhost:PORT` if running without **Dockerized Nginx** and `SSL_DOMAIN` if running with **Dockerized Nginx** 
+> `<url>` will be `localhost:${PORT}` if running without **Dockerized Nginx** and you can create **SSL Certificate** and **Proxy Host** using [Dockerized Nginx](https://github.com/madrigals1/nginx_proxy_manager)
 
 ### Table Generation
 
