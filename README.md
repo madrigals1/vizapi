@@ -173,7 +173,7 @@ Example Input
             },
             {
                 "name": "Website",
-                "value": "https://adigame.dev/"
+                "value": "https://madrigal.pro/"
             },
             {
                 "name": "Location",
