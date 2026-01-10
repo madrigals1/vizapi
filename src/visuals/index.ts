@@ -14,6 +14,8 @@ const {
   compareToHtml, pieToHtml, tableToHtml, barToHtml,
 } = require('./handlebars');
 
+declare const window: any;
+
 async function visualizeHelper(options) {
   const {
     action, data, prefix, width, height,
