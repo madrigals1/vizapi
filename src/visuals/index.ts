@@ -1,18 +1,17 @@
-const fs = require('fs');
+import * as fs from 'fs';
 
-const { PNG } = require('pngjs');
-const pixelmatch = require('pixelmatch');
-const puppeteer = require('puppeteer');
+import { PNG } from 'pngjs';
+import * as pixelmatch from 'pixelmatch';
+import * as puppeteer from 'puppeteer';
 
-const constants = require('../constants');
-const {
-  log, error, getUniquePath, createFile,
-} = require('../utils');
-const { IS_DOCKER } = require('../constants');
+import * as constants from '../constants';
+import {getUniquePath, createFile} from '../utils';
+import { log, error } from '../utils/helper';
+import { IS_DOCKER } from '../constants';
 
-const {
+import {
   compareToHtml, pieToHtml, tableToHtml, barToHtml,
-} = require('./handlebars');
+} from './handlebars';
 
 declare const window: any;
 

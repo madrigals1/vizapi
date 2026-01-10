@@ -1,6 +1,6 @@
-const fs = require('fs');
+import * as fs from 'fs';
 
-const Handlebars = require('handlebars');
+import * as Handlebars from 'handlebars';
 
 export function render(filename, data) {
   return new Promise((resolve, reject) => {

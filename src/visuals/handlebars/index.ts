@@ -1,4 +1,4 @@
-const { render, chartsWrapper } = require('./utils');
+import { render, chartsWrapper } from './utils';
 
 export async function tableToHtml(data) {
   // We use first row of table to determine list of possible columns

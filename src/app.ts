@@ -1,12 +1,14 @@
-const restana = require('restana');
-const bodyParser = require('body-parser');
+import * as restana from 'restana';
+import * as bodyParser from 'body-parser';
+
+import { PORT } from './constants';
+import { createStaticFolder } from './utils';
+import { log } from './utils/helper';
+import {
+  createTable, createCompare, createPie, createBar, createDiff,
+} from './visuals';
 
 const app = restana();
-const { PORT } = require('./constants');
-const { log, createStaticFolder } = require('./utils');
-const {
-  createTable, createCompare, createPie, createBar, createDiff,
-} = require('./visuals');
 
 app.use(bodyParser.json());
 

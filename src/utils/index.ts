@@ -1,8 +1,8 @@
-const fs = require('fs');
+import * as fs from 'fs';
 
-const uuid4 = require('uuid4');
+import * as uuid4 from 'uuid4';
 
-const { STATIC_FOLDER, STATIC_URL } = require('../constants');
+import { STATIC_FOLDER, STATIC_URL } from '../constants';
 
 export function getUniquePath(options) {
   const { prefix, suffix, extension } = options;
