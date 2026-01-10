@@ -4,7 +4,7 @@ import { PORT } from './constants';
 import { createStaticFolder } from './utils';
 import { log, error } from './utils/helper';
 import {
-  createTable, createCompare, createPie, createBar, createDiff,
+  createTable, createCompare, createPie, createBar,
 } from './visuals';
 
 const app = Fastify();
@@ -57,16 +57,6 @@ app.post('/bar', async (req, res) => {
 
   // Get image of png table
   const link = await createBar(barData);
-
-  // Send back data
-  return link ? { link } : { failure: 'Error on the server!' };
-});
-
-app.post('/diff', async (req, res) => {
-  const diffData = req.body;
-
-  // Get image link
-  const link = await createDiff(diffData);
 
   // Send back data
   return link ? { link } : { failure: 'Error on the server!' };
