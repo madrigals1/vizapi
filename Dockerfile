@@ -1,6 +1,7 @@
 FROM ghcr.io/puppeteer/puppeteer:latest
 
 ENV IS_DOCKER true
+ENV PORT 3000
 
 WORKDIR /usr/src/app
 
