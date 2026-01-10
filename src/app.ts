@@ -1,72 +1,55 @@
-import * as restana from 'restana';
-import * as bodyParser from 'body-parser';
+import Fastify from 'fastify';
 
 import { PORT } from './constants';
 import { createStaticFolder } from './utils';
-import { log } from './utils/helper';
+import { log, error } from './utils/helper';
 import {
   createTable, createCompare, createPie, createBar, createDiff,
 } from './visuals';
 
-const app = restana();
-
-app.use(bodyParser.json());
+const app = Fastify();
 
 // Create static folder
 createStaticFolder();
 
-async function defaultResponse(req, res) {
-  return res.send({ detail: 'Visualize API is running!' });
-}
+app.get('/', async () => ({ detail: 'Visualize API is running!' }));
 
-app.get('/', defaultResponse);
-
-app.post('/table', async (req, res) => {
+app.post('/table', async (req: any) => {
   // Get table dict from request body
   const { table } = req.body;
 
   if (!table || table.length === 0) {
-    const data = {
+    return {
       failure: 'Please, provide non-empty \'table\' in request body',
-    };
-    return res.send(data);
+    };;
   }
 
   // Get image of png table
   const link = await createTable(table);
 
-  // Send link or error
-  const data = link ? { link } : { failure: 'Error on the server!' };
-
   // Send back data
-  return res.send(data);
+  return link ? { link } : { failure: 'Error on the server!' };
 });
 
-app.post('/compare', async (req, res) => {
+app.post('/compare', async (req) => {
   // Get compare dict from request body
   const compare = req.body;
 
   // Get image of png compare table
   const link = await createCompare(compare);
 
-  // Send link or error
-  const data = link ? { link } : { failure: 'Error on the server!' };
-
   // Send back data
-  return res.send(data);
+  return link ? { link } : { failure: 'Error on the server!' };
 });
 
-app.post('/pie', async (req, res) => {
+app.post('/pie', async (req) => {
   const pieData = req.body;
 
   // Get image of png table
   const link = await createPie(pieData);
 
-  // Send link or error
-  const data = link ? { link } : { failure: 'Error on the server!' };
-
   // Send back data
-  return res.send(data);
+  return link ? { link } : { failure: 'Error on the server!' };
 });
 
 app.post('/bar', async (req, res) => {
@@ -75,11 +58,8 @@ app.post('/bar', async (req, res) => {
   // Get image of png table
   const link = await createBar(barData);
 
-  // Send link or error
-  const data = link ? { link } : { failure: 'Error on the server!' };
-
   // Send back data
-  return res.send(data);
+  return link ? { link } : { failure: 'Error on the server!' };
 });
 
 app.post('/diff', async (req, res) => {
@@ -88,11 +68,14 @@ app.post('/diff', async (req, res) => {
   // Get image link
   const link = await createDiff(diffData);
 
-  // Send link or error
-  const data = link ? { link } : { failure: 'Error on the server!' };
-
   // Send back data
-  return res.send(data);
+  return link ? { link } : { failure: 'Error on the server!' };
 });
 
-app.start(PORT).then(() => log(`App is running on port ${PORT}`));
+app.listen({ port: PORT }, (err, address) => {
+  if (err) {
+    error(err);
+    process.exit(1);
+  }
+  log(`Server listening at ${address}`);
+});
