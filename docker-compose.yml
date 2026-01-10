@@ -1,5 +1,5 @@
 services:
-  backend:
+  vizapi:
     build: .
     container_name: vizapi
     restart: always
