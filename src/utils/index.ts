@@ -4,8 +4,6 @@ const uuid4 = require('uuid4');
 
 const { STATIC_FOLDER, STATIC_URL } = require('../constants');
 
-export const { log, error } = require('./helper');
-
 export function getUniquePath(options) {
   const { prefix, suffix, extension } = options;
 
