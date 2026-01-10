@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "rootDirs": ["./src"],
+    "outDir": "./dist",
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",

@@ -4,7 +4,8 @@
   "description": "API for visualizing Data",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
+    "build": "rimraf dist && tsc --project tsconfig.json",
+    "start": "npm run build && node dist/src/index.js",
     "fix": "eslint --fix src/*"
   },
   "author": "Adi Sabyrbayev",
