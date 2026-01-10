@@ -35,7 +35,7 @@ async function visualizeHelper(options) {
 
     const browser = await puppeteer.launch(puppeteerOptions);
     const page = await browser.newPage();
-    page.setDefaultTimeout(constants.RENDER_TIMEOUT_MS);
+    page.setDefaultTimeout(constants.GOOGLE_RENDER_TIMEOUT);
 
     page.on('pageerror', (err) => {
       throw new Error(`Error: ${err.toString()}`);
