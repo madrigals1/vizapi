@@ -9,4 +9,4 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE ${PORT}
+EXPOSE 3000
