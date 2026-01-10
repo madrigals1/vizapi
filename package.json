@@ -11,13 +11,9 @@
   "author": "Adi Sabyrbayev",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^2.2.2",
     "dotenv": "^17.2.3",
     "fastify": "^5.6.2",
     "handlebars": "^4.7.8",
-    "html-entities": "^2.6.0",
-    "pixelmatch": "^7.1.0",
-    "pngjs": "^7.0.0",
     "puppeteer": "^24.34.0",
     "typescript": "^5.9.3",
     "uuid4": "^2.0.3"
