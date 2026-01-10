@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as uuid4 from 'uuid4';
 
 import { STATIC_FOLDER, STATIC_URL } from '../constants';
+import { log } from './helper';
 
 export function getUniquePath(options) {
   const { prefix, suffix, extension } = options;
