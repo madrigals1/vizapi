@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "build": "rimraf dist && tsc --project tsconfig.json",
-    "start": "npm run build && node dist/src/index.js",
+    "start": "npm run build && node dist/app.js",
     "fix": "eslint --fix src/*"
   },
   "author": "Adi Sabyrbayev",
