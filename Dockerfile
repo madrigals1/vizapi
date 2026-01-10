@@ -2,11 +2,14 @@ FROM ghcr.io/puppeteer/puppeteer:latest
 
 ENV IS_DOCKER true
 ENV PORT 3000
+ENV PUPPETEER_CACHE_DIR=/usr/src/app/.cache/puppeteer
 
 WORKDIR /usr/src/app
 
 ADD package.json package-lock.json ./
 RUN npm ci
+
+RUN npx puppeteer browsers install chrome
 
 COPY . .
 
