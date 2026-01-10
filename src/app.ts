@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
 
-import { PORT } from './constants';
+import { PORT, IS_DOCKER } from './constants';
 import { createStaticFolder } from './utils';
 import { log, error } from './utils/helper';
 import {
@@ -62,10 +62,16 @@ app.post('/bar', async (req, res) => {
   return link ? { link } : { failure: 'Error on the server!' };
 });
 
-app.listen({ port: PORT }, (err, address) => {
-  if (err) {
-    error(err);
-    process.exit(1);
-  }
-  log(`Server listening at ${address}`);
-});
+app.listen(
+  {
+    port: PORT,
+    host: IS_DOCKER ? '0.0.0.0' : '127.0.0.1',
+  },
+  (err, address) => {
+    if (err) {
+      error(err);
+      process.exit(1);
+    }
+    log(`Server listening at ${address}`);
+  },
+);
