@@ -1,10 +1,8 @@
 /* eslint-disable no-console */
-function log(...args) {
+export function log(...args) {
   console.log(...args);
 }
 
-function error(...args) {
+export function error(...args) {
   console.error(...args);
 }
-
-module.exports = { log, error };

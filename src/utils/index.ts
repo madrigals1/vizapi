@@ -4,9 +4,9 @@ const uuid4 = require('uuid4');
 
 const { STATIC_FOLDER, STATIC_URL } = require('../constants');
 
-const { log, error } = require('./helper');
+export const { log, error } = require('./helper');
 
-function getUniquePath(options) {
+export function getUniquePath(options) {
   const { prefix, suffix, extension } = options;
 
   // /var/www/static
@@ -34,21 +34,13 @@ function getUniquePath(options) {
   };
 }
 
-function createFile(path, buffer) {
+export function createFile(path, buffer) {
   fs.writeFile(path, buffer, (err) => {
     if (err) throw err;
     log('Image was created');
   });
 }
 
-function createStaticFolder() {
+export function createStaticFolder() {
   if (!fs.existsSync(STATIC_FOLDER)) fs.mkdirSync(STATIC_FOLDER, null);
 }
-
-module.exports = {
-  getUniquePath,
-  createFile,
-  log,
-  error,
-  createStaticFolder,
-};

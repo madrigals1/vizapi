@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const Handlebars = require('handlebars');
 
-function render(filename, data) {
+export function render(filename, data) {
   return new Promise((resolve, reject) => {
     try {
       const source = fs.readFileSync(filename, 'utf8').toString();
@@ -15,11 +15,9 @@ function render(filename, data) {
   });
 }
 
-async function chartsWrapper(content, opts) {
+export async function chartsWrapper(content, opts) {
   return render(
     'src/visuals/handlebars/templates/charts.html',
     { opts, content },
   );
 }
-
-module.exports = { render, chartsWrapper };

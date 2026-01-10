@@ -1,6 +1,6 @@
 const { render, chartsWrapper } = require('./utils');
 
-async function tableToHtml(data) {
+export async function tableToHtml(data) {
   // We use first row of table to determine list of possible columns
   const firstRow = data[0];
   const columns = Object.keys(firstRow);
@@ -12,7 +12,7 @@ async function tableToHtml(data) {
   );
 }
 
-function compareToHtml(data) {
+export function compareToHtml(data) {
   const { left, right } = data;
 
   // Identify which value is bigger
@@ -31,7 +31,7 @@ function compareToHtml(data) {
   return render('src/visuals/handlebars/templates/compare.html', data);
 }
 
-async function pieToHtml(data) {
+export async function pieToHtml(data) {
   const updatedData = {
     ...data,
     chartArea: JSON.stringify(data.chartArea),
@@ -45,7 +45,7 @@ async function pieToHtml(data) {
   return rendered;
 }
 
-function barToHtml(barData) {
+export function barToHtml(barData) {
   const { data, options } = barData;
 
   const htmlContent = `
@@ -64,9 +64,3 @@ function barToHtml(barData) {
   return chartsWrapper(htmlContent, renderOptions);
 }
 
-module.exports = {
-  compareToHtml,
-  pieToHtml,
-  tableToHtml,
-  barToHtml,
-};

@@ -70,7 +70,7 @@ async function visualizeHelper(options) {
   }
 }
 
-function createCompare(data) {
+export function createCompare(data) {
   const options = {
     action: compareToHtml,
     data,
@@ -81,7 +81,7 @@ function createCompare(data) {
   return visualizeHelper(options);
 }
 
-function createTable(data) {
+export function createTable(data) {
   const options = {
     action: tableToHtml,
     data,
@@ -92,7 +92,7 @@ function createTable(data) {
   return visualizeHelper(options);
 }
 
-function createPie(data) {
+export function createPie(data) {
   const options = {
     action: pieToHtml,
     data,
@@ -103,7 +103,7 @@ function createPie(data) {
   return visualizeHelper(options);
 }
 
-async function createBar(data) {
+export async function createBar(data) {
   const options = {
     action: barToHtml,
     data,
@@ -114,7 +114,7 @@ async function createBar(data) {
   return visualizeHelper(options);
 }
 
-async function createDiff(data) {
+export async function createDiff(data) {
   // HTML version of data
   const {
     left, right, width, height,
@@ -206,7 +206,3 @@ async function createDiff(data) {
     return false;
   }
 }
-
-module.exports = {
-  createTable, createCompare, createPie, createBar, createDiff,
-};
