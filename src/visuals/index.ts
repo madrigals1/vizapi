@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 import { PNG } from 'pngjs';
-import * as pixelmatch from 'pixelmatch';
+import pixelmatch from 'pixelmatch';
 import * as puppeteer from 'puppeteer';
 
 import * as constants from '../constants';
