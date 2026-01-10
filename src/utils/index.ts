@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import * as uuid4 from 'uuid4';
+import uuid4 from 'uuid4';
 
 import { STATIC_FOLDER, STATIC_URL } from '../constants';
 import { log } from './helper';
