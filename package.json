@@ -1,6 +1,6 @@
 {
-  "name": "visualize_api",
-  "version": "0.1.0",
+  "name": "vizapi",
+  "version": "0.2.0",
   "description": "API for visualizing Data",
   "main": "src/app.js",
   "scripts": {
