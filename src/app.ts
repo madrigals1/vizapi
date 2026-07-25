@@ -1,6 +1,8 @@
 import Fastify from 'fastify';
 import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 
+import { version } from '../package.json';
+
 import { PORT, IS_DOCKER } from './constants';
 import { createStaticFolder } from './utils';
 import { log, error } from './utils/helper';
@@ -28,6 +30,12 @@ app.setNotFoundHandler((_req: FastifyRequest, reply: FastifyReply) => {
 });
 
 app.get('/', async () => ({ detail: 'Visualize API is running!' }));
+
+app.get('/health', async () => ({
+  status: 'ok',
+  version,
+  uptime: Math.floor(process.uptime()),
+}));
 
 app.post<{ Body: { table: TableData } }>('/table', async (req) => {
   const { table } = req.body;
