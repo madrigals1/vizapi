@@ -63,7 +63,7 @@ async function main() {
   console.log('\n=== POST /compare ===');
   console.log(await fetch('POST', '/compare', {
     left: {
-      image: 'https://picsum.photos/seed/a/250/250',
+      image: 'https://placehold.co/250x250/4285F4/FFF?text=Nike',
       bio_fields: [
         { name: 'Name', value: 'Velocity Pro' },
         { name: 'Category', value: 'Running Shoe' },
@@ -81,7 +81,7 @@ async function main() {
       ],
     },
     right: {
-      image: 'https://picsum.photos/seed/b/250/250',
+      image: 'https://placehold.co/250x250/EA4335/FFF?text=Adidas',
       bio_fields: [
         { name: 'Name', value: 'UltraStride' },
         { name: 'Category', value: 'Running Shoe' },
