@@ -1,10 +1,10 @@
-import * as fs from 'fs';
+import { existsSync, mkdirSync } from 'node:fs';
+import { writeFile } from 'node:fs/promises';
 
 import uuid4 from 'uuid4';
 
 import { STATIC_FOLDER, STATIC_URL } from '../constants';
 import type { PathInfo, UniquePathOptions } from '../types';
-import { log } from './helper';
 
 export function getUniquePath(options: UniquePathOptions): PathInfo {
   const { prefix, suffix, extension } = options;
@@ -34,17 +34,12 @@ export function getUniquePath(options: UniquePathOptions): PathInfo {
   };
 }
 
-export function createFile(path: string, buffer: Buffer): void {
-  fs.writeFile(path, buffer, (err) => {
-    if (err) {
-      throw err;
-    }
-    log('Image was created');
-  });
+export async function createFile(path: string, buffer: Buffer): Promise<void> {
+  await writeFile(path, buffer);
 }
 
 export function createStaticFolder(): void {
-  if (!fs.existsSync(STATIC_FOLDER)) {
-    fs.mkdirSync(STATIC_FOLDER, null);
+  if (!existsSync(STATIC_FOLDER)) {
+    mkdirSync(STATIC_FOLDER, null);
   }
 }

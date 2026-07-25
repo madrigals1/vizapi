@@ -1,24 +1,17 @@
-import * as fs from 'fs';
+import { readFileSync } from 'node:fs';
 
 import * as Handlebars from 'handlebars';
 
-export function render(filename: string, data: unknown): Promise<string> {
-  return new Promise((resolve, reject) => {
-    try {
-      const source = fs.readFileSync(filename, 'utf8').toString();
-      const template = Handlebars.compile(source);
-      const output = template(data);
-      resolve(output);
-    } catch (e) {
-      reject(e);
-    }
-  });
+export function render(filename: string, data: unknown): string {
+  const source = readFileSync(filename, 'utf8');
+  const template = Handlebars.compile(source);
+  return template(data);
 }
 
-export async function chartsWrapper(
+export function chartsWrapper(
   content: string,
   opts: Record<string, unknown>,
-): Promise<string> {
+): string {
   return render(
     'src/visuals/handlebars/templates/charts.html',
     { opts, content },

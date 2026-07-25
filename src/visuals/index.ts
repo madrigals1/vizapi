@@ -53,7 +53,7 @@ async function visualizeHelper<T>(options: VisualizeOptions<T>): Promise<VisualR
         'base64',
       );
 
-      createFile(uniquePath.absolute, buf);
+      await createFile(uniquePath.absolute, buf);
     } else if (container) {
       await container.screenshot({ path: uniquePath.absolute });
     }

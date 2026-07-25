@@ -1,7 +1,7 @@
 import type { TableData, CompareData, PieData, BarData } from '../../types';
 import { render, chartsWrapper } from './utils';
 
-export async function tableToHtml(data: TableData): Promise<string> {
+export function tableToHtml(data: TableData): string {
   const firstRow = data[0];
   const columns = Object.keys(firstRow);
   const values = data.map((row) => columns.map((column) => row[column]));
@@ -12,7 +12,7 @@ export async function tableToHtml(data: TableData): Promise<string> {
   );
 }
 
-export function compareToHtml(data: CompareData): Promise<string> {
+export function compareToHtml(data: CompareData): string {
   const { left, right } = data;
 
   left.compare_fields.forEach(({ name, value: leftValue }) => {
@@ -30,21 +30,20 @@ export function compareToHtml(data: CompareData): Promise<string> {
   return render('src/visuals/handlebars/templates/compare.html', data);
 }
 
-export async function pieToHtml(data: PieData): Promise<string> {
+export function pieToHtml(data: PieData): string {
   const updatedData = {
     ...data,
     chartArea: JSON.stringify(data.chartArea),
     pieHole: data.pieHole || 0,
     is3D: data.is3D || false,
   };
-  const rendered = render(
+  return render(
     './src/visuals/handlebars/templates/pie.html',
     updatedData,
   );
-  return rendered;
 }
 
-export function barToHtml(barData: BarData): Promise<string> {
+export function barToHtml(barData: BarData): string {
   const { data, options } = barData;
 
   const htmlContent = `
