@@ -44,7 +44,7 @@ app.post<{ Body: { table: TableData } }>('/table', async (req) => {
 
 app.post<{ Body: CompareData }>('/compare', async (req) => {
   try {
-    const svg = renderCompareSvg(req.body);
+    const svg = await renderCompareSvg(req.body);
     const buf = await svgToPng(svg);
     const path = getUniquePath('compare');
     await savePng(buf, path.absolute);
