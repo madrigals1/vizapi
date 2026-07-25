@@ -1,4 +1,4 @@
-FROM ghcr.io/puppeteer/puppeteer:latest
+FROM ghcr.io/puppeteer/puppeteer:24.0.0
 
 ENV IS_DOCKER true
 ENV PORT 3000
