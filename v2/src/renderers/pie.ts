@@ -1,10 +1,12 @@
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
 import type { PieData } from '../types';
 
+const MARGIN = 8;
+
 export async function renderPie(data: PieData): Promise<Buffer> {
   const canvas = new ChartJSNodeCanvas({
-    width: data.width,
-    height: data.height,
+    width: data.width + MARGIN * 2,
+    height: data.height + MARGIN * 2,
   });
 
   const config = {
@@ -19,6 +21,7 @@ export async function renderPie(data: PieData): Promise<Buffer> {
       }],
     },
     options: {
+      layout: { padding: MARGIN },
       plugins: {
         title: {
           display: true,
