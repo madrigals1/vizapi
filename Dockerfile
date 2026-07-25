@@ -9,8 +9,6 @@ WORKDIR /usr/src/app
 ADD package.json package-lock.json ./
 RUN npm ci
 
-RUN npx puppeteer browsers install chrome
-
 COPY . .
 
 EXPOSE ${PORT}
