@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf dist && tsc --project tsconfig.json",
     "start": "npm run build && node dist/app.js",
-    "fix": "eslint --fix src/*"
+    "lint": "eslint --fix src/*"
   },
   "author": "Adi Sabyrbayev",
   "license": "ISC",
