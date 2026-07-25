@@ -1,8 +1,8 @@
-FROM ghcr.io/puppeteer/puppeteer:24.0.0
+FROM ghcr.io/puppeteer/puppeteer:24.43.1
 
 ENV IS_DOCKER true
 ENV PORT 3000
-ENV PUPPETEER_CACHE_DIR=/usr/src/app/.cache/puppeteer
+ENV PUPPETEER_CACHE_DIR=/home/pptruser/.cache/puppeteer
 
 WORKDIR /usr/src/app
 
