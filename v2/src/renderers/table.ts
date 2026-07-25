@@ -1,13 +1,10 @@
+import { render } from '../render';
 import type { TableData } from '../types';
 
 const ROW_HEIGHT = 36;
 const HEADER_HEIGHT = 40;
-const PADDING = 12;
-const FONT_FAMILY = 'Arial, sans-serif';
-
-function escapeXml(s: unknown): string {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
+const TABLE_WIDTH = 860;
+const MARGIN = 8;
 
 export function renderTableSvg(data: TableData): string {
   if (data.length === 0) {
@@ -15,39 +12,45 @@ export function renderTableSvg(data: TableData): string {
   }
 
   const columns = Object.keys(data[0]);
+  const colWidth = Math.floor(TABLE_WIDTH / columns.length);
+  const tableHeight = HEADER_HEIGHT + data.length * ROW_HEIGHT;
+  const svgWidth = TABLE_WIDTH + MARGIN * 2;
+  const svgHeight = tableHeight + MARGIN * 2;
 
-  const colWidth = Math.floor(860 / columns.length);
+  const headers = columns.map((col, i) => ({
+    text: col,
+    x: MARGIN + i * colWidth + 8,
+    y: MARGIN + HEADER_HEIGHT / 2 + 5,
+  }));
 
-  const totalHeight = HEADER_HEIGHT + data.length * ROW_HEIGHT + PADDING * 2;
-
-  let rows = '';
-
-  // Header
-  rows += `  <rect x="0" y="0" width="${860}" height="${HEADER_HEIGHT}" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>\n`;
-  columns.forEach((col, i) => {
-    const x = i * colWidth;
-    rows += `  <text x="${x + 8}" y="${HEADER_HEIGHT / 2 + 5}" font-family="${FONT_FAMILY}" font-size="14" font-weight="bold" fill="#333">${escapeXml(col)}</text>\n`;
-    if (i > 0) {
-      rows += `  <line x1="${x}" y1="0" x2="${x}" y2="${HEADER_HEIGHT}" stroke="#ddd" stroke-width="1"/>\n`;
-    }
+  const rows = data.map((row, ri) => {
+    const y = MARGIN + HEADER_HEIGHT + ri * ROW_HEIGHT;
+    const y2 = y + ROW_HEIGHT;
+    return {
+      y,
+      y2,
+      rowH: ROW_HEIGHT,
+      bg: ri % 2 === 0 ? '#ffffff' : '#f0f0f0',
+      showBorder: true,
+      cells: columns.map((col, ci) => ({
+        text: String(row[col]),
+        x: MARGIN + ci * colWidth + 8,
+        ty: y + ROW_HEIGHT / 2 + 5,
+      })),
+    };
   });
 
-  // Data rows
-  data.forEach((row, ri) => {
-    const y = HEADER_HEIGHT + ri * ROW_HEIGHT;
-    const bg = ri % 2 === 0 ? '#ffffff' : '#f0f0f0';
-    rows += `  <rect x="0" y="${y}" width="${860}" height="${ROW_HEIGHT}" fill="${bg}" stroke="#ddd" stroke-width="1"/>\n`;
-    columns.forEach((col, ci) => {
-      const x = ci * colWidth;
-      rows += `  <text x="${x + 8}" y="${y + ROW_HEIGHT / 2 + 5}" font-family="${FONT_FAMILY}" font-size="13" fill="#333">${escapeXml(row[col])}</text>\n`;
-      if (ci > 0) {
-        rows += `  <line x1="${x}" y1="${y}" x2="${x}" y2="${y + ROW_HEIGHT}" stroke="#ddd" stroke-width="1"/>\n`;
-      }
-    });
+  return render('table', {
+    width: svgWidth,
+    height: svgHeight,
+    tableX: MARGIN,
+    tableY: MARGIN,
+    tableW: TABLE_WIDTH,
+    tableXPlusW: MARGIN + TABLE_WIDTH,
+    tableH: tableHeight,
+    headerH: HEADER_HEIGHT,
+    headerY: MARGIN,
+    headers,
+    rows,
   });
-
-  return `<svg width="860" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="860" height="${totalHeight}" fill="#fff"/>
-${rows}
-</svg>`;
 }

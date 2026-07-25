@@ -26,7 +26,7 @@ export async function renderPie(data: PieData): Promise<Buffer> {
           font: { size: data.fontSize || 14, weight: 'bold' as const },
         },
         legend: {
-          position: 'bottom' as const,
+          position: 'right' as const,
         },
       },
       cutout: data.pieHole ? `${data.pieHole * 100}%` : undefined,
