@@ -7,7 +7,7 @@ ENV PUPPETEER_CACHE_DIR=/usr/src/app/.cache/puppeteer
 WORKDIR /usr/src/app
 
 ADD package.json package-lock.json ./
-RUN npm ci
+RUN npm ci && npm cache clean --force
 
 COPY . .
 
