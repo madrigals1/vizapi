@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 
 import { PORT, IS_DOCKER } from './constants';
 import { createStaticFolder } from './utils';
@@ -11,6 +12,20 @@ import {
 const app = Fastify();
 
 createStaticFolder();
+
+app.setErrorHandler((
+  err: FastifyError,
+  _req: FastifyRequest,
+  reply: FastifyReply,
+) => {
+  const statusCode = err.statusCode ?? 500;
+  error(`[${statusCode}] ${err.message}`);
+  reply.status(statusCode).send({ failure: err.message });
+});
+
+app.setNotFoundHandler((_req: FastifyRequest, reply: FastifyReply) => {
+  reply.status(404).send({ failure: 'Route not found' });
+});
 
 app.get('/', async () => ({ detail: 'Visualize API is running!' }));
 
