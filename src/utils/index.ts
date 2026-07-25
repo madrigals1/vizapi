@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 
-import uuid4 from 'uuid4';
+import { randomUUID } from 'node:crypto';
 
 import { STATIC_FOLDER, STATIC_URL } from '../constants';
 import type { PathInfo, UniquePathOptions } from '../types';
@@ -15,7 +15,7 @@ export function getUniquePath(options: UniquePathOptions): PathInfo {
     fileName += `${prefix}_`;
   }
 
-  const id = uuid4();
+  const id = randomUUID();
 
   fileName += id;
 
