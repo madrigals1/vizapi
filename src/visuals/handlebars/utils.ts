@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 import * as Handlebars from 'handlebars';
 
-export function render(filename, data) {
+export function render(filename: string, data: unknown): Promise<string> {
   return new Promise((resolve, reject) => {
     try {
       const source = fs.readFileSync(filename, 'utf8').toString();
@@ -15,7 +15,10 @@ export function render(filename, data) {
   });
 }
 
-export async function chartsWrapper(content, opts) {
+export async function chartsWrapper(
+  content: string,
+  opts: Record<string, unknown>,
+): Promise<string> {
   return render(
     'src/visuals/handlebars/templates/charts.html',
     { opts, content },

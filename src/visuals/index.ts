@@ -4,29 +4,28 @@ import * as constants from '../constants';
 import { getUniquePath, createFile } from '../utils';
 import { log, error } from '../utils/helper';
 import { IS_DOCKER } from '../constants';
+import type {
+  TableData, CompareData, PieData, BarData,
+  VisualizeOptions, VisualResult,
+} from '../types';
 
 import {
   compareToHtml, pieToHtml, tableToHtml, barToHtml,
 } from './handlebars';
 
-declare const window: any;
-
-async function visualizeHelper(options) {
+async function visualizeHelper<T>(options: VisualizeOptions<T>): Promise<VisualResult> {
   const {
     action, data, prefix, width, height,
   } = options;
 
-  // HTML version of data
   const content = await action(data);
 
-  // Generate unique path
   const uniquePath = getUniquePath({ prefix, extension: 'png' });
 
   try {
     const args = [
       '--no-sandbox', '--disable-setuid-sandbox', '--enable-logging', '--v=1',
     ];
-    // Set options for Puppeteer
     const puppeteerOptions = IS_DOCKER ? { args } : {};
 
     const browser = await puppeteer.launch(puppeteerOptions);
@@ -34,7 +33,7 @@ async function visualizeHelper(options) {
     page.setDefaultTimeout(constants.GOOGLE_RENDER_TIMEOUT);
 
     page.on('pageerror', (err) => {
-      throw new Error(`Error: ${err.toString()}`);
+      throw new Error(`Error: ${String(err)}`);
     });
 
     await page.setViewport({ width, height });
@@ -42,10 +41,11 @@ async function visualizeHelper(options) {
     const container = await page.$('#container');
 
     const imageBase64 = await page.evaluate(() => {
-      if (!window.chart || typeof window.chart.getImageURI === 'undefined') {
+      const w = window as { chart?: { getImageURI?: () => string } };
+      if (!w.chart || typeof w.chart.getImageURI === 'undefined') {
         return null;
       }
-      return window.chart.getImageURI();
+      return w.chart.getImageURI();
     });
     if (imageBase64) {
       const buf = Buffer.from(
@@ -54,7 +54,7 @@ async function visualizeHelper(options) {
       );
 
       createFile(uniquePath.absolute, buf);
-    } else {
+    } else if (container) {
       await container.screenshot({ path: uniquePath.absolute });
     }
 
@@ -62,13 +62,14 @@ async function visualizeHelper(options) {
     log(`Image was created at path ${uniquePath.absolute}`);
     return uniquePath.link;
   } catch (err) {
-    error(`Image was NOT created at path ${uniquePath.absolute}, error: ${err.message}`);
+    const message = err instanceof Error ? err.message : String(err);
+    error(`Image was NOT created at path ${uniquePath.absolute}, error: ${message}`);
     return false;
   }
 }
 
-export function createCompare(data) {
-  const options = {
+export function createCompare(data: CompareData): Promise<VisualResult> {
+  const options: VisualizeOptions<CompareData> = {
     action: compareToHtml,
     data,
     prefix: 'compare',
@@ -78,8 +79,8 @@ export function createCompare(data) {
   return visualizeHelper(options);
 }
 
-export function createTable(data) {
-  const options = {
+export function createTable(data: TableData): Promise<VisualResult> {
+  const options: VisualizeOptions<TableData> = {
     action: tableToHtml,
     data,
     prefix: 'table',
@@ -89,8 +90,8 @@ export function createTable(data) {
   return visualizeHelper(options);
 }
 
-export function createPie(data) {
-  const options = {
+export function createPie(data: PieData): Promise<VisualResult> {
+  const options: VisualizeOptions<PieData> = {
     action: pieToHtml,
     data,
     prefix: 'pie',
@@ -100,8 +101,8 @@ export function createPie(data) {
   return visualizeHelper(options);
 }
 
-export async function createBar(data) {
-  const options = {
+export function createBar(data: BarData): Promise<VisualResult> {
+  const options: VisualizeOptions<BarData> = {
     action: barToHtml,
     data,
     prefix: 'bar',

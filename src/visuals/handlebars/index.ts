@@ -1,7 +1,7 @@
+import type { TableData, CompareData, PieData, BarData } from '../../types';
 import { render, chartsWrapper } from './utils';
 
-export async function tableToHtml(data) {
-  // We use first row of table to determine list of possible columns
+export async function tableToHtml(data: TableData): Promise<string> {
   const firstRow = data[0];
   const columns = Object.keys(firstRow);
   const values = data.map((row) => columns.map((column) => row[column]));
@@ -12,18 +12,17 @@ export async function tableToHtml(data) {
   );
 }
 
-export function compareToHtml(data) {
+export function compareToHtml(data: CompareData): Promise<string> {
   const { left, right } = data;
 
-  // Identify which value is bigger
   left.compare_fields.forEach(({ name, value: leftValue }) => {
     const rightValue = (
-      right.compare_fields.find((field) => field.name === name).value
+      right.compare_fields.find((field) => field.name === name)!.value
     );
-    left.compare_fields.find((field) => field.name === name).bigger = (
+    left.compare_fields.find((field) => field.name === name)!.bigger = (
       leftValue >= rightValue
     );
-    right.compare_fields.find((field) => field.name === name).bigger = (
+    right.compare_fields.find((field) => field.name === name)!.bigger = (
       rightValue >= leftValue
     );
   });
@@ -31,7 +30,7 @@ export function compareToHtml(data) {
   return render('src/visuals/handlebars/templates/compare.html', data);
 }
 
-export async function pieToHtml(data) {
+export async function pieToHtml(data: PieData): Promise<string> {
   const updatedData = {
     ...data,
     chartArea: JSON.stringify(data.chartArea),
@@ -45,7 +44,7 @@ export async function pieToHtml(data) {
   return rendered;
 }
 
-export function barToHtml(barData) {
+export function barToHtml(barData: BarData): Promise<string> {
   const { data, options } = barData;
 
   const htmlContent = `
