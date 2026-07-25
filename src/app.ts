@@ -1,5 +1,4 @@
 import Fastify from 'fastify';
-import type { FastifyRequest } from 'fastify';
 
 import { PORT, IS_DOCKER } from './constants';
 import { createStaticFolder } from './utils';
@@ -15,7 +14,7 @@ createStaticFolder();
 
 app.get('/', async () => ({ detail: 'Visualize API is running!' }));
 
-app.post('/table', async (req: FastifyRequest<{ Body: { table: TableData } }>) => {
+app.post<{ Body: { table: TableData } }>('/table', async (req) => {
   const { table } = req.body;
 
   if (!table || table.length === 0) {
@@ -29,7 +28,7 @@ app.post('/table', async (req: FastifyRequest<{ Body: { table: TableData } }>) =
   return link ? { link } : { failure: 'Error on the server!' };
 });
 
-app.post('/compare', async (req: FastifyRequest<{ Body: CompareData }>) => {
+app.post<{ Body: CompareData }>('/compare', async (req) => {
   const compare = req.body;
 
   const link = await createCompare(compare);
@@ -37,7 +36,7 @@ app.post('/compare', async (req: FastifyRequest<{ Body: CompareData }>) => {
   return link ? { link } : { failure: 'Error on the server!' };
 });
 
-app.post('/pie', async (req: FastifyRequest<{ Body: PieData }>) => {
+app.post<{ Body: PieData }>('/pie', async (req) => {
   const pieData = req.body;
 
   const link = await createPie(pieData);
@@ -45,7 +44,7 @@ app.post('/pie', async (req: FastifyRequest<{ Body: PieData }>) => {
   return link ? { link } : { failure: 'Error on the server!' };
 });
 
-app.post('/bar', async (req: FastifyRequest<{ Body: BarData }>, _reply) => {
+app.post<{ Body: BarData }>('/bar', async (req, _reply) => {
   const barData = req.body;
 
   const link = await createBar(barData);
