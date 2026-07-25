@@ -63,4 +63,3 @@ export function barToHtml(barData) {
 
   return chartsWrapper(htmlContent, renderOptions);
 }
-

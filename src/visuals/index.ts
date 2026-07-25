@@ -1,7 +1,7 @@
 import * as puppeteer from 'puppeteer';
 
 import * as constants from '../constants';
-import {getUniquePath, createFile} from '../utils';
+import { getUniquePath, createFile } from '../utils';
 import { log, error } from '../utils/helper';
 import { IS_DOCKER } from '../constants';
 
