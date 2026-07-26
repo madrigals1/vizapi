@@ -1,90 +1,91 @@
 import Fastify from 'fastify';
-import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
+import sharp from 'sharp';
 
-import { version } from '../package.json';
-
-import { PORT, IS_DOCKER } from './constants';
-import { createStaticFolder } from './utils';
-import { log, error } from './utils/helper';
+import { PORT, IS_DOCKER, STATIC_FOLDER } from './constants';
+import { getUniquePath, savePng, ensureStaticFolder } from './utils';
+import { log, error } from './helpers';
 import type { TableData, CompareData, PieData, BarData } from './types';
-import {
-  createTable, createCompare, createPie, createBar,
-} from './visuals';
+import { renderTableSvg, renderCompareSvg, renderPie, renderBar } from './renderers';
 
 const app = Fastify();
 
-createStaticFolder();
+ensureStaticFolder();
 
-app.setErrorHandler((
-  err: FastifyError,
-  _req: FastifyRequest,
-  reply: FastifyReply,
-) => {
-  const statusCode = err.statusCode ?? 500;
-  error(`[${statusCode}] ${err.message}`);
-  reply.status(statusCode).send({ failure: err.message });
-});
-
-app.setNotFoundHandler((_req: FastifyRequest, reply: FastifyReply) => {
-  reply.status(404).send({ failure: 'Route not found' });
-});
-
-app.get('/', async () => ({ detail: 'Visualize API is running!' }));
+app.get('/', async () => ({ detail: 'Visualize API v2 is running!' }));
 
 app.get('/health', async () => ({
   status: 'ok',
-  version,
   uptime: Math.floor(process.uptime()),
 }));
+
+async function svgToPng(svg: string): Promise<Buffer> {
+  return sharp(Buffer.from(svg)).png().toBuffer();
+}
 
 app.post<{ Body: { table: TableData } }>('/table', async (req) => {
   const { table } = req.body;
 
   if (!table || table.length === 0) {
-    return {
-      failure: 'Please, provide non-empty \'table\' in request body',
-    };
+    return { failure: 'Please, provide non-empty \'table\' in request body' };
   }
 
-  const link = await createTable(table);
-
-  return link ? { link } : { failure: 'Error on the server!' };
+  try {
+    const svg = renderTableSvg(table);
+    const buf = await svgToPng(svg);
+    const path = getUniquePath('table');
+    await savePng(buf, path.absolute);
+    return { link: path.link };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    error(`Table render failed: ${msg}`);
+    return { failure: 'Error on the server!' };
+  }
 });
 
 app.post<{ Body: CompareData }>('/compare', async (req) => {
-  const compare = req.body;
-
-  const link = await createCompare(compare);
-
-  return link ? { link } : { failure: 'Error on the server!' };
+  try {
+    const svg = await renderCompareSvg(req.body);
+    const buf = await svgToPng(svg);
+    const path = getUniquePath('compare');
+    await savePng(buf, path.absolute);
+    return { link: path.link };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    error(`Compare render failed: ${msg}`);
+    return { failure: 'Error on the server!' };
+  }
 });
 
 app.post<{ Body: PieData }>('/pie', async (req) => {
-  const pieData = req.body;
-
-  const link = await createPie(pieData);
-
-  return link ? { link } : { failure: 'Error on the server!' };
+  try {
+    const buf = await renderPie(req.body);
+    const path = getUniquePath('pie');
+    await savePng(buf, path.absolute);
+    return { link: path.link };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    error(`Pie render failed: ${msg}`);
+    return { failure: 'Error on the server!' };
+  }
 });
 
-app.post<{ Body: BarData }>('/bar', async (req, _reply) => {
-  const barData = req.body;
-
-  const link = await createBar(barData);
-
-  return link ? { link } : { failure: 'Error on the server!' };
+app.post<{ Body: BarData }>('/bar', async (req) => {
+  try {
+    const buf = await renderBar(req.body);
+    const path = getUniquePath('bar');
+    await savePng(buf, path.absolute);
+    return { link: path.link };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    error(`Bar render failed: ${msg}`);
+    return { failure: 'Error on the server!' };
+  }
 });
 
-app.listen(
-  {
-    port: PORT,
-    host: IS_DOCKER ? '0.0.0.0' : '127.0.0.1',
-  },
-  (err, address) => {
-    if (err) {
-      error(err);
-      process.exit(1);
-    }
-    log(`Server listening at ${address}`);
-  },
-);
+app.listen({ port: PORT, host: IS_DOCKER ? '0.0.0.0' : '127.0.0.1' }, (err, address) => {
+  if (err) {
+    error(err);
+    process.exit(1);
+  }
+  log(`v2 server listening at ${address}`);
+});

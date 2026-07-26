@@ -52,19 +52,3 @@ export interface PathInfo {
   relative: string;
   link: string;
 }
-
-export interface UniquePathOptions {
-  prefix?: string;
-  suffix?: string;
-  extension?: string;
-}
-
-export interface VisualizeOptions<T> {
-  action: (data: T) => string | Promise<string>;
-  data: T;
-  prefix: string;
-  width: number;
-  height: number;
-}
-
-export type VisualResult = string | false;
