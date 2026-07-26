@@ -9,7 +9,7 @@ export function error(...args: unknown[]): void {
 }
 
 export function debug(...args: unknown[]): void {
-  if (DEBUG) {
-    console.log(`[${new Date().toISOString()}] DEBUG:`, ...args);
-  }
+  // if (DEBUG) {
+  console.log(`[${new Date().toISOString()}] DEBUG:`, ...args);
+  // }
 }
