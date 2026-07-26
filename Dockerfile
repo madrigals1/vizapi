@@ -3,7 +3,7 @@ FROM node:20-slim
 ENV IS_DOCKER true
 ENV PORT 3122
 
-RUN apt-get update && apt-get install -y --no-install-recommends fonts-dejavu-core fontconfig && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends fonts-dejavu-core && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 

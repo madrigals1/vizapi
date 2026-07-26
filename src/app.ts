@@ -32,7 +32,7 @@ app.post<{ Body: { table: TableData } }>('/table', async (req) => {
   }
 
   try {
-    const svg = renderTableSvg(table);
+    const svg = await renderTableSvg(table);
     const buf = await svgToPng(svg);
     const path = getUniquePath('table');
     await savePng(buf, path.absolute);
