@@ -30,9 +30,10 @@ function buildCard(sideData: CompareSide, isLeft: boolean) {
   const compareFields = sideData.compare_fields.map((field) => ({
     name: String(field.name),
     value: field.value == null ? '' : String(field.value),
-    dotColor: field.bigger ? '#449d44' : '#e91e63',
-    nameColor: isLeft ? '#333333' : '#666666',
-    valueColor: isLeft ? '#666666' : '#333333',
+    bigger: field.bigger ?? false,
+    dotColor: field.bigger ? '#66bb6a' : '#e53935',
+    nameColor: '#333333',
+    valueColor: '#333333',
     nameWeight: isLeft ? ('bold' as const) : ('normal' as const),
     nameAlign: isLeft ? ('flex-start' as const) : ('flex-end' as const),
     valueAlign: isLeft ? ('flex-end' as const) : ('flex-start' as const),
@@ -82,7 +83,7 @@ function cardElement(card: ReturnType<typeof buildCard>, image: string) {
                   style: {
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     flex: 1,
                   },
                   children: card.bioFields.map((f) => ({
@@ -129,64 +130,38 @@ function cardElement(card: ReturnType<typeof buildCard>, image: string) {
               flexDirection: 'column',
               padding: '10px 15px',
             },
-            children: card.compareFields.map((f) => ({
-              type: 'div',
-              props: {
-                style: {
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: f.nameAlign,
-                  marginBottom: 12,
-                  gap: 8,
+            children: card.compareFields.map((f) => {
+              const [r, g, b] = f.bigger ? [102, 187, 106] : [229, 57, 53];
+              const gradient = card.isLeft
+                ? `linear-gradient(to left, rgba(${r}, ${g}, ${b}, 0.4), transparent)`
+                : `linear-gradient(to right, rgba(${r}, ${g}, ${b}, 0.4), transparent)`;
+              return {
+                type: 'div',
+                props: {
+                  style: {
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    marginBottom: 12,
+                    backgroundImage: gradient,
+                    borderRadius: 4,
+                    padding: '8px 12px',
+                  },
+                  children: card.isLeft
+                    ? [
+                        { type: 'span', props: { style: { fontWeight: 'bold', fontSize: 16, color: f.nameColor }, children: f.name } },
+                        { type: 'div', props: { style: { flex: 1 } } },
+                        { type: 'span', props: { style: { fontWeight: 'bold', fontSize: 16, color: f.valueColor }, children: f.value } },
+                      ]
+                    : [
+                        { type: 'span', props: { style: { fontWeight: 'bold', fontSize: 16, color: f.valueColor }, children: f.value } },
+                        { type: 'div', props: { style: { flex: 1 } } },
+                        { type: 'span', props: { style: { fontWeight: 'bold', fontSize: 16, color: f.nameColor }, children: f.name } },
+                      ],
                 },
-                children: [
-                  ...(card.isLeft
-                    ? [{
-                        type: 'div',
-                        props: {
-                          style: {
-                            width: 16,
-                            height: 16,
-                            borderRadius: 8,
-                            backgroundColor: f.dotColor,
-                            flexShrink: 0,
-                          },
-                        },
-                      }]
-                    : []),
-                  {
-                    type: 'span',
-                    props: {
-                      style: { fontWeight: f.nameWeight, fontSize: 16, color: f.nameColor },
-                      children: f.name,
-                    },
-                  },
-                  { type: 'div', props: { style: { flex: 1 } } },
-                  {
-                    type: 'span',
-                    props: {
-                      style: { fontSize: 16, color: f.valueColor },
-                      children: f.value,
-                    },
-                  },
-                  ...(card.isLeft
-                    ? []
-                    : [{
-                        type: 'div',
-                        props: {
-                          style: {
-                            width: 16,
-                            height: 16,
-                            borderRadius: 8,
-                            backgroundColor: f.dotColor,
-                            flexShrink: 0,
-                          },
-                        },
-                      }]),
-                ],
-              },
-            })),
+              };
+            }),
           },
         },
       ],
@@ -215,9 +190,10 @@ export async function renderCompareSvg(data: CompareData): Promise<string> {
   const CARD_W = 600;
   const topH = IMAGE_SIZE + CARD_PADDING * 2;
   const maxCompareFields = Math.max(left.compare_fields.length, right.compare_fields.length);
-  const compareH = maxCompareFields * 32 + 10;
+  const ROW_H = 8 + 22 + 8 + 12;
+  const compareH = maxCompareFields > 0 ? maxCompareFields * ROW_H - 12 + 20 : 0;
   const svgWidth = CARD_W * 2 + CARD_GAP + CARD_PADDING * 2;
-  const svgHeight = topH + compareH + 35;
+  const svgHeight = topH + compareH + 28;
 
   return renderSvg({
     type: 'div',
