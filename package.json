@@ -4,7 +4,7 @@
   "description": "API for visualizing Data",
   "scripts": {
     "build": "rimraf dist && tsc --project tsconfig.json",
-    "start": "npm run build && node dist/app.js",
+    "start": "npx tsx watch src/app.ts",
     "lint": "eslint --fix 'src/**/*.ts'",
     "test": "npx tsx scripts/test-api.ts"
   },
