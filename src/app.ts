@@ -3,7 +3,7 @@ import sharp from 'sharp';
 
 import { PORT, IS_DOCKER } from './constants';
 import { getUniquePath, savePng, ensureStaticFolder } from './utils';
-import { log, error, debug } from './helpers';
+import { log, error } from './helpers';
 import type { TableData, CompareData, PieData, BarData } from './types';
 import { renderTableSvg, renderCompareSvg, renderPie, renderBar } from './renderers';
 
@@ -33,9 +33,7 @@ app.post<{ Body: { table: TableData } }>('/table', async (req) => {
 
   try {
     const svg = renderTableSvg(table);
-    debug('Table SVG generated', { svgLength: svg.length });
     const buf = await svgToPng(svg);
-    debug('Table PNG generated', { bufLength: buf.length });
     const path = getUniquePath('table');
     await savePng(buf, path.absolute);
     log('POST /table - saved', { path: path.link });
@@ -51,9 +49,7 @@ app.post<{ Body: CompareData }>('/compare', async (req) => {
   log('POST /compare', { hasLeft: !!req.body.left, hasRight: !!req.body.right });
   try {
     const svg = await renderCompareSvg(req.body);
-    debug('Compare SVG generated', { svgLength: svg.length });
     const buf = await svgToPng(svg);
-    debug('Compare PNG generated', { bufLength: buf.length });
     const path = getUniquePath('compare');
     await savePng(buf, path.absolute);
     log('POST /compare - saved', { path: path.link });
@@ -69,7 +65,6 @@ app.post<{ Body: PieData }>('/pie', async (req) => {
   log('POST /pie', { title: req.body.title, slices: req.body.sliceData?.length });
   try {
     const buf = await renderPie(req.body);
-    debug('Pie PNG generated', { bufLength: buf.length });
     const path = getUniquePath('pie');
     await savePng(buf, path.absolute);
     log('POST /pie - saved', { path: path.link });
@@ -85,7 +80,6 @@ app.post<{ Body: BarData }>('/bar', async (req) => {
   log('POST /bar', { rows: req.body.data?.length, series: req.body.data?.[0]?.length });
   try {
     const buf = await renderBar(req.body);
-    debug('Bar PNG generated', { bufLength: buf.length });
     const path = getUniquePath('bar');
     await savePng(buf, path.absolute);
     log('POST /bar - saved', { path: path.link });
