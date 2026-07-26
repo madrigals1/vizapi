@@ -3,7 +3,6 @@ services:
     build: .
     container_name: vizapi
     restart: always
-    user: ${UID}:10042
     ports:
       - ${PORT}:3000
     volumes:

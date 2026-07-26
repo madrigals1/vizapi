@@ -13,5 +13,3 @@ RUN npm ci && npm cache clean --force
 COPY . .
 
 EXPOSE ${PORT}
-
-CMD ["npm", "start"]
