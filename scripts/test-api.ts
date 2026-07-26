@@ -1,23 +1,31 @@
-import { request } from 'node:http';
+import { request, IncomingMessage, ClientRequest } from 'node:http';
 
-const BASE = 'http://localhost:3122';
+interface ApiResponse {
+  status: number;
+  body: unknown;
+}
 
-function fetch(method, path, body) {
+function fetch(method: string, path: string, body?: unknown): Promise<ApiResponse> {
   return new Promise((resolve, reject) => {
     const opts = { method, path, hostname: 'localhost', port: 3122 };
     if (body) {
-      opts.headers = { 'Content-Type': 'application/json' };
+      (opts as Record<string, unknown>).headers = { 'Content-Type': 'application/json' };
     }
-    const req = request(opts, (res) => {
+    const req: ClientRequest = request(opts, (res: IncomingMessage) => {
       let data = '';
-      res.on('data', (c) => data += c);
+      res.on('data', (c: Buffer) => data += c);
       res.on('end', () => {
-        try { resolve({ status: res.statusCode, body: JSON.parse(data) }); }
-        catch { resolve({ status: res.statusCode, body: data }); }
+        try {
+          resolve({ status: res.statusCode ?? 0, body: JSON.parse(data) });
+        } catch {
+          resolve({ status: res.statusCode ?? 0, body: data });
+        }
       });
     });
     req.on('error', reject);
-    if (body) req.write(JSON.stringify(body));
+    if (body) {
+      req.write(JSON.stringify(body));
+    }
     req.end();
   });
 }
