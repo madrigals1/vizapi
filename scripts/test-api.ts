@@ -1,4 +1,7 @@
+import 'dotenv/config';
 import { request, IncomingMessage, ClientRequest } from 'node:http';
+
+const PORT = process.env.PORT || '3122';
 
 interface ApiResponse {
   status: number;
@@ -7,9 +10,9 @@ interface ApiResponse {
 
 function fetch(method: string, path: string, body?: unknown): Promise<ApiResponse> {
   return new Promise((resolve, reject) => {
-    const opts = { method, path, hostname: 'localhost', port: 3122 };
+    const opts: Record<string, unknown> = { method, path, hostname: 'localhost', port: PORT };
     if (body) {
-      (opts as Record<string, unknown>).headers = { 'Content-Type': 'application/json' };
+      opts.headers = { 'Content-Type': 'application/json' };
     }
     const req: ClientRequest = request(opts, (res: IncomingMessage) => {
       let data = '';
