@@ -1,19 +1,16 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
     "target": "es2022",
     "module": "node16",
     "moduleResolution": "node16",
-    "sourceMap": true,
-    "removeComments": false,
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
+    "rootDir": ".",
+    "outDir": "../dist/scripts",
+    "noEmit": true,
     "types": ["node"]
   },
-  "exclude": ["node_modules", "dist", "scripts", "v2"]
+  "include": ["test-api.ts"]
 }
