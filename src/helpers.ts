@@ -1,3 +1,5 @@
+import { DEBUG } from './constants';
+
 export function log(...args: unknown[]): void {
   console.log(`[${new Date().toISOString()}]`, ...args);
 }
@@ -7,7 +9,7 @@ export function error(...args: unknown[]): void {
 }
 
 export function debug(...args: unknown[]): void {
-  if (process.env.DEBUG) {
+  if (DEBUG) {
     console.log(`[${new Date().toISOString()}] DEBUG:`, ...args);
   }
 }

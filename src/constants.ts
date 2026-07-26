@@ -26,3 +26,4 @@ export const PORT = intEnv('PORT', 3122);
 export const STATIC_URL = requiredEnv('STATIC_URL');
 export const STATIC_FOLDER = '/var/www/static/vizapi';
 export const IS_DOCKER = process.env.IS_DOCKER;
+export const DEBUG = process.env.DEBUG;
