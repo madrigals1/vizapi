@@ -11,7 +11,7 @@ const app = Fastify();
 
 ensureStaticFolder();
 
-app.get('/', async () => ({ detail: 'Visualize API v2 is running!' }));
+app.get('/', async () => ({ detail: 'Visualize API is running!' }));
 
 app.get('/health', async () => ({
   status: 'ok',
@@ -102,5 +102,5 @@ app.listen({ port: PORT, host: IS_DOCKER ? '0.0.0.0' : '127.0.0.1' }, (err, addr
     error(err);
     process.exit(1);
   }
-  log(`v2 server listening at ${address}`);
+  log(`VizAPI server is listening at ${address}`);
 });
