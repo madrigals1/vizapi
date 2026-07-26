@@ -24,7 +24,7 @@ function fetchImage(url: string): Promise<string> {
 async function buildCard(sideData: CompareSide, cx: number): Promise<Record<string, unknown>> {
   const bioFields = sideData.bio_fields.map((field, i) => ({
     name: String(field.name),
-    value: String(field.value),
+    value: field.value == null ? '' : String(field.value),
     bx: cx + 270,
     bvx: cx + 590,
     by: 30 + i * 30 + 15,
@@ -42,7 +42,7 @@ async function buildCard(sideData: CompareSide, cx: number): Promise<Record<stri
       cy: fy + 20,
       dotColor,
       name: String(field.name),
-      value: String(field.value),
+      value: field.value == null ? '' : String(field.value),
       nx: isLeft ? cx + 40 : cx + CARD_W - 40,
       ny: fy + 25,
       nw: isLeft ? 'bold' : 'normal',
