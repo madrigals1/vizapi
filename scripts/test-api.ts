@@ -43,14 +43,14 @@ async function main() {
   console.log('\n=== POST /table ===');
   console.log(await fetch('POST', '/table', {
     table: [
-      { Region: 'North America', Product: 'Widget Pro', Q1: 12450, Q2: 13720, Q3: 14100, Q4: 15890, Total: 56160 },
-      { Region: 'Europe', Product: 'Widget Pro', Q1: 9800, Q2: 10200, Q3: 11500, Q4: 12100, Total: 43600 },
-      { Region: 'Asia Pacific', Product: 'Gadget X', Q1: 7200, Q2: 8100, Q3: 9500, Q4: 10200, Total: 35000 },
-      { Region: 'South America', Product: 'Widget Pro', Q1: 3100, Q2: 3600, Q3: 4200, Q4: 4800, Total: 15700 },
-      { Region: 'North America', Product: 'Gadget X', Q1: 8900, Q2: 9200, Q3: 10100, Q4: 11700, Total: 39900 },
-      { Region: 'Europe', Product: 'Gadget X', Q1: 6400, Q2: 7100, Q3: 7800, Q4: 8400, Total: 29700 },
-      { Region: 'Africa', Product: 'Widget Pro', Q1: 1800, Q2: 2100, Q3: 2600, Q4: 3100, Total: 9600 },
-      { Region: 'Australia', Product: 'Gadget X', Q1: 4100, Q2: 4600, Q3: 5100, Q4: 5700, Total: 19500 },
+      { 'Region': 'The quick brown fox jumps over the lazy dog in the middle of the sunny afternoon on a Tuesday', 'Product': 'Enterprise Analytics Dashboard with Advanced Filtering and Real-time Data Synchronization', Q1: 12450, Q2: 13720, Q3: 14100, Q4: 15890, Total: 56160 },
+      { 'Region': 'North Atlantic Coastal Region Including All Major Shipping Lanes and International Waters', 'Product': 'Widget Pro Ultra Premium Edition with Extended Cloud Storage and Priority Support', Q1: 9800, Q2: 10200, Q3: 11500, Q4: 12100, Total: 43600 },
+      { 'Region': 'Asia Pacific Rim Economic Zone Covering Emerging Markets and Developing Nations Worldwide', 'Product': 'Gadget XNext-Generation Smart Device with Built-in Artificial Intelligence and Machine Learning', Q1: 7200, Q2: 8100, Q3: 9500, Q4: 10200, Total: 35000 },
+      { 'Region': 'South American Continental Shelf Including Patagonian Fjords and Amazonian River Systems', 'Product': 'MegaSuite Professional Workstation with Comprehensive Security and Compliance Toolkit', Q1: 3100, Q2: 3600, Q3: 4200, Q4: 4800, Total: 15700 },
+      { 'Region': 'European Union Single Market Zone Excluding Special Economic Zones and Free Trade Areas', 'Product': 'CloudSync Enterprise Backup and Disaster Recovery Solution with Zero Downtime Guarantees', Q1: 8900, Q2: 9200, Q3: 10100, Q4: 11700, Total: 39900 },
+      { 'Region': 'Sub-Saharan African Development Corridor with Focus on Sustainable Infrastructure Projects', 'Product': 'DataFlow Real-time Streaming Analytics Platform with Apache Kafka Integration Support', Q1: 6400, Q2: 7100, Q3: 7800, Q4: 8400, Total: 29700 },
+      { 'Region': 'Middle Eastern Desert Plateau Region Excluding Coastal Areas and Offshore Territory Zones', 'Product': 'SecureVault Enterprise-grade Encryption and Key Management System for Financial Institutions', Q1: 1800, Q2: 2100, Q3: 2600, Q4: 3100, Total: 9600 },
+      { 'Region': 'Oceania Pacific Islands and Territories Including New Zealand and Australian Outback Regions', 'Product': 'VisionAI Computer Vision and Image Recognition API with GPU-accelerated Neural Network Support', Q1: 4100, Q2: 4600, Q3: 5100, Q4: 5700, Total: 19500 },
     ],
   }));
 
