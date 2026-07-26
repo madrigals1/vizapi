@@ -1,7 +1,7 @@
 import Fastify from 'fastify';
 import sharp from 'sharp';
 
-import { PORT, IS_DOCKER, STATIC_FOLDER } from './constants';
+import { PORT, IS_DOCKER } from './constants';
 import { getUniquePath, savePng, ensureStaticFolder } from './utils';
 import { log, error } from './helpers';
 import type { TableData, CompareData, PieData, BarData } from './types';

@@ -8,7 +8,9 @@ const cache = new Map<string, Handlebars.TemplateDelegate>();
 
 function load(name: string): Handlebars.TemplateDelegate {
   const cached = cache.get(name);
-  if (cached) return cached;
+  if (cached) {
+    return cached;
+  }
 
   const path = resolve(templateDir, `${name}.hbs`);
   const source = readFileSync(path, 'utf8');

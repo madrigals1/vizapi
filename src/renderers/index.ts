@@ -1,4 +1,4 @@
-export { renderTableSvg } from './table';
-export { renderCompareSvg } from './compare';
-export { renderPie } from './pie';
-export { renderBar } from './bar';
+export * from './table';
+export * from './compare';
+export * from './pie';
+export * from './bar';
