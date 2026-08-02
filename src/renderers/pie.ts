@@ -32,7 +32,7 @@ export async function renderPie(data: PieData): Promise<Buffer> {
           position: 'right' as const,
         },
       },
-      cutout: data.pieHole ? `${data.pieHole * 100}%` : undefined,
+      cutout: data.pieHole !== undefined ? `${data.pieHole * 100}%` : '40%',
     },
   };
 
