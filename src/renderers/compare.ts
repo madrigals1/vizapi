@@ -7,7 +7,7 @@ import { compileTemplate } from './templates/template';
 const CARD_GAP = 10;
 const CARD_PADDING = 15;
 const IMAGE_SIZE = 150;
-const CARD_W = 600;
+const CARD_W = 430;
 
 const BIGGER_COLOR = [102, 187, 106];
 const SMALLER_COLOR = [229, 57, 53];
