@@ -1,4 +1,4 @@
-FROM node:20-slim
+FROM mcr.microsoft.com/playwright:v1.62.1-noble
 
 ENV IS_DOCKER true
 ENV PORT 3122
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /usr/src/app
 
 ADD package.json package-lock.json ./
-RUN npm ci && npx playwright install --with-deps chromium && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 COPY . .
 
