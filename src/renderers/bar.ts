@@ -1,81 +1,61 @@
-import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+import { renderHtml, jsString } from '../browser';
 import type { BarData } from '../types';
+import { ECHARTS_SOURCE } from './echarts';
+import { compileTemplate } from './templates/template';
 
 const colors = ['#4CAF50', '#FFC107', '#F44336'];
 
-const totalLabelPlugin = {
-  id: 'totalLabel',
-  afterDraw(chart: unknown) {
-    const c = chart as {
-      scales: Record<string, { getPixelForValue: (v: number) => number }>;
-      data: { datasets: { data: number[] }[] };
-      ctx: CanvasRenderingContext2D;
-    };
-    const xScale = c.scales.x;
-    const yScale = c.scales.y;
-    if (!xScale || !yScale || !c.ctx) {
-      return;
-    }
-
-    const n = c.data.datasets[0].data.length;
-    c.ctx.font = 'bold 13px Arial';
-    c.ctx.fillStyle = '#333';
-    c.ctx.textAlign = 'left';
-    c.ctx.textBaseline = 'middle';
-
-    for (let i = 0; i < n; i++) {
-      const total = c.data.datasets.reduce((sum, ds) => sum + (ds.data[i] || 0), 0);
-      const x = xScale.getPixelForValue(total) + 6;
-      const y = yScale.getPixelForValue(i);
-      c.ctx.fillText(`${total}`, x, y);
-    }
-  },
-};
+const template = compileTemplate<{
+  width: number;
+  height: number;
+  echartsSource: string;
+  rows: string;
+  showLegend: boolean;
+  gridBottom: number;
+  xMax: number;
+  seriesData: { name: string; color: string; isLast: boolean }[];
+}>('bar.hbs');
 
 export async function renderBar(data: BarData): Promise<Buffer> {
-  const canvas = new ChartJSNodeCanvas({
-    width: data.options.width,
-    height: data.options.height,
-  });
+  const { width, height } = data.options;
 
   const header = data.data[0] as string[];
   const rows = data.data.slice(1) as unknown[];
 
   const withTotal = rows.map((r) => {
-    const vals = (r as unknown[]).slice(1).map(Number);
+    const raw = r as unknown[];
+    const vals = raw.slice(1).map(Number);
     const total = vals.reduce((a, b) => a + b, 0);
-    return { label: (r as unknown[])[0] as string, vals, total };
+    return { label: String(raw[0]), vals, total };
   });
   withTotal.sort((a, b) => b.total - a.total);
 
-  const labels = withTotal.map((r) => r.label);
-  const datasets = header.slice(1).map((label, i) => ({
-    label,
-    data: withTotal.map((r) => r.vals[i]),
-    backgroundColor: colors[i % colors.length],
-  }));
-
+  const seriesNames = header.slice(1);
   const maxTotal = Math.max(...withTotal.map((r) => r.total));
-  const xMax = Math.ceil(maxTotal * 1.2 / 10000) * 10000;
+  const xMax = Math.ceil((maxTotal * 1.2) / 10000) * 10000;
+  const showLegend = seriesNames.length > 1;
 
-  const config = {
-    type: 'bar' as const,
-    data: { labels, datasets },
-    options: {
-      indexAxis: 'y' as const,
-      plugins: {
-        legend: {
-          display: datasets.length > 1,
-          position: 'bottom' as const,
-        },
-      },
-      scales: {
-        x: { beginAtZero: true, stacked: true, max: xMax },
-        y: { stacked: true },
-      },
-    },
-    plugins: [totalLabelPlugin],
-  };
+  const rowsSource =
+    '[\n' +
+    withTotal
+      .map((r) => `  { label: ${jsString(r.label)}, vals: [${r.vals.join(', ')}], total: ${r.total} }`)
+      .join(',\n') +
+    '\n]';
 
-  return await canvas.renderToBuffer(config);
+  const html = template({
+    width,
+    height,
+    echartsSource: ECHARTS_SOURCE,
+    rows: rowsSource,
+    showLegend,
+    gridBottom: showLegend ? 36 : 12,
+    xMax,
+    seriesData: seriesNames.map((name, i) => ({
+      name: jsString(name),
+      color: jsString(colors[i % colors.length]),
+      isLast: i === seriesNames.length - 1,
+    })),
+  });
+
+  return renderHtml(html, { width, height, waitRaf: true });
 }

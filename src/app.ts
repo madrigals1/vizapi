@@ -1,11 +1,11 @@
 import Fastify from 'fastify';
-import sharp from 'sharp';
 
 import { PORT, IS_DOCKER } from './constants';
 import { getUniquePath, savePng, ensureStaticFolder } from './utils';
 import { log, error } from './helpers';
 import type { TableData, CompareData, PieData, BarData } from './types';
-import { renderTableSvg, renderCompareSvg, renderPie, renderBar } from './renderers';
+import { renderTable, renderCompare, renderPie, renderBar } from './renderers';
+import { closeBrowser } from './browser';
 
 const app = Fastify();
 
@@ -18,10 +18,6 @@ app.get('/health', async () => ({
   uptime: Math.floor(process.uptime()),
 }));
 
-async function svgToPng(svg: string): Promise<Buffer> {
-  return sharp(Buffer.from(svg)).png().toBuffer();
-}
-
 app.post<{ Body: { table: TableData } }>('/table', async (req) => {
   const { table } = req.body;
   log('POST /table', { rows: table?.length, columns: table?.[0] ? Object.keys(table[0]).length : 0 });
@@ -32,8 +28,7 @@ app.post<{ Body: { table: TableData } }>('/table', async (req) => {
   }
 
   try {
-    const svg = await renderTableSvg(table);
-    const buf = await svgToPng(svg);
+    const buf = await renderTable(table);
     const path = getUniquePath('table');
     await savePng(buf, path.absolute);
     log('POST /table - saved', { path: path.link });
@@ -48,8 +43,7 @@ app.post<{ Body: { table: TableData } }>('/table', async (req) => {
 app.post<{ Body: CompareData }>('/compare', async (req) => {
   log('POST /compare', { hasLeft: !!req.body.left, hasRight: !!req.body.right });
   try {
-    const svg = await renderCompareSvg(req.body);
-    const buf = await svgToPng(svg);
+    const buf = await renderCompare(req.body);
     const path = getUniquePath('compare');
     await savePng(buf, path.absolute);
     log('POST /compare - saved', { path: path.link });
@@ -98,3 +92,9 @@ app.listen({ port: PORT, host: IS_DOCKER ? '0.0.0.0' : '127.0.0.1' }, (err, addr
   }
   log(`VizAPI server is listening at ${address}`);
 });
+
+for (const signal of ['SIGINT', 'SIGTERM'] as const) {
+  process.once(signal, () => {
+    void closeBrowser().finally(() => process.exit(0));
+  });
+}

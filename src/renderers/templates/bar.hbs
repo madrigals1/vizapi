@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow: hidden; }
+</style>
+</head>
+<body>
+  <div id="chart" style="width:{{width}}px;height:{{height}}px"></div>
+  <script>{{{echartsSource}}}</script>
+  <script>
+    const rows = {{{rows}}};
+    const option = {
+      animation: false,
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      legend: {
+        show: {{showLegend}},
+        bottom: 0,
+        itemWidth: 12,
+        itemHeight: 12,
+        textStyle: { fontSize: 12, color: '#333333' },
+      },
+      grid: { left: 8, right: 64, top: 12, bottom: {{gridBottom}}, containLabel: true },
+      xAxis: { type: 'value', min: 0, max: {{xMax}} },
+      yAxis: {
+        type: 'category',
+        data: rows.map((r) => r.label),
+        axisLabel: { fontSize: 13, color: '#333333' },
+      },
+      series: [
+        {{#each seriesData}}
+        {
+          name: {{{name}}},
+          type: 'bar',
+          stack: 'total',
+          barMaxWidth: 26,
+          itemStyle: {
+            color: {{{color}}},
+            borderRadius: {{#if isLast}}[0, 4, 4, 0]{{else}}0{{/if}},
+          },
+          data: rows.map((r) => ({ value: r.vals[{{@index}}], total: r.total })),
+          {{#if isLast}}
+          endLabel: {
+            show: true,
+            formatter: (p) => { const d = rows[p.dataIndex]; return d ? d.total : ''; },
+            fontSize: 13,
+            fontWeight: 'bold',
+            color: '#333333',
+          },
+          {{/if}}
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ],
+    };
+    const el = document.getElementById('chart');
+    const chart = echarts.init(el, undefined, { renderer: 'canvas' });
+    chart.setOption(option);
+    window.__vizChart = chart;
+  </script>
+</body>
+</html>

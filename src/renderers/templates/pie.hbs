@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow: hidden; }
+</style>
+</head>
+<body>
+  <div id="chart" style="width:{{width}}px;height:{{height}}px"></div>
+  <script>{{{echartsSource}}}</script>
+  <script>
+    const slices = {{{slices}}};
+    const option = {
+      animation: false,
+      title: {
+        text: {{{title}}},
+        left: 'center',
+        top: 4,
+        textStyle: { fontSize: {{fontSize}}, fontWeight: 'bold', color: '#111111' },
+      },
+      tooltip: { trigger: 'item' },
+      legend: {
+        orient: 'vertical',
+        right: 16,
+        top: 'middle',
+        icon: 'rect',
+        itemWidth: 12,
+        itemHeight: 12,
+        itemGap: 8,
+        textStyle: { fontSize: 12, color: '#333333' },
+        formatter: (name) => {
+          const item = slices.find((s) => s.name === name);
+          return item ? name + '  ' + item.value : name;
+        },
+      },
+      series: [{
+        type: 'pie',
+        radius: ['{{inner}}%', '80%'],
+        center: ['38%', '54%'],
+        avoidLabelOverlap: true,
+        itemStyle: { borderColor: '#ffffff', borderWidth: 2 },
+        label: { color: '#ffffff', fontWeight: 'bold', fontSize: 12, formatter: '{d}%' },
+        labelLine: { show: false },
+        data: slices,
+      }],
+    };
+    const el = document.getElementById('chart');
+    const chart = echarts.init(el, undefined, { renderer: 'canvas' });
+    chart.setOption(option);
+    window.__vizChart = chart;
+  </script>
+</body>
+</html>
