@@ -2,7 +2,7 @@ services:
   vizapi:
     build: .
     container_name: vizapi
-    restart: always
+    restart: unless-stopped
     ports:
       - ${PORT}:${PORT}
     volumes:
