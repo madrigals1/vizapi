@@ -42,7 +42,7 @@ export async function renderHtml(
   html: string,
   options: { width: number; height?: number; waitRaf?: boolean },
 ): Promise<Buffer> {
-  const page = await (await getBrowser()).newPage();
+  const page = await (await getBrowser()).newPage({ deviceScaleFactor: 2 });
   try {
     await page.setViewportSize({ width: options.width, height: options.height ?? 800 });
     await page.setContent(html, { waitUntil: 'load', timeout: RENDER_TIMEOUT_MS });
