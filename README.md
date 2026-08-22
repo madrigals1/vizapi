@@ -8,25 +8,25 @@
 
 Converts any JSON array of objects into a styled, striped table image.
 
-![Table Output](https://static.madrigals1.duckdns.org/vizapi/table_ac3ba659-9f56-49bc-9b53-9b296ef66ef2.png)
+![Table Output](https://static.madrigal.pro/vizapi/table_ac3ba659-9f56-49bc-9b53-9b296ef66ef2.png)
 
 ### Compare Cards — `POST /compare`
 
 Renders a side-by-side comparison of two entities with avatars, bio fields, and color-coded metric bars.
 
-![Compare Output](https://static.madrigals1.duckdns.org/vizapi/compare_296b049e-3796-416b-9fda-0596be234142.png)
+![Compare Output](https://static.madrigal.pro/vizapi/compare_296b049e-3796-416b-9fda-0596be234142.png)
 
 ### Pie Chart — `POST /pie`
 
 Generates a donut/pie chart with a title, legend, and percentage labels.
 
-![Pie Output](https://static.madrigals1.duckdns.org/vizapi/pie_14e93349-041f-4295-8424-3519c82118e0.png)
+![Pie Output](https://static.madrigal.pro/vizapi/pie_14e93349-041f-4295-8424-3519c82118e0.png)
 
 ### Bar Chart — `POST /bar`
 
 Generates a horizontal stacked bar chart with automatic sorting by total and optional legend.
 
-![Bar Output](https://static.madrigals1.duckdns.org/vizapi/bar_01dff2eb-9544-422a-a8c3-f2d3b8616829.png)
+![Bar Output](https://static.madrigal.pro/vizapi/bar_01dff2eb-9544-422a-a8c3-f2d3b8616829.png)
 
 ### Health Checks
 
