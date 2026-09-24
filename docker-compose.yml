@@ -17,3 +17,6 @@ networks:
   https:
     name: ${HTTPS_NETWORK}
     external: true
+  leetcode_bot_network:
+    name: ${LEETCODE_BOT_NETWORK}
+    external: true
