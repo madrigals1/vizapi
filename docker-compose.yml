@@ -11,6 +11,7 @@ services:
       - "${DOCKER_STATIC_HOSTING}:/var/www/static"
     networks:
       - https
+      - leetcode_bot_network
     command: npm start
 
 networks:
